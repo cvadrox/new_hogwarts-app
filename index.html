@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101a17"><title>Слизерин · Шестой курс</title>
+<link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon-192.png">
+<style>
+:root{--bg:#101815;--fg:#ede7dc;--panel:#18241e;--line:#34473c;--muted:#b2b9ad;--accent:#c3d1a4;--reader:19px;color-scheme:dark}
+[data-theme=light]{--bg:#eeeade;--fg:#24342b;--panel:#e4e3d5;--line:#bec9b6;--muted:#53624e;--accent:#3c5b3c;color-scheme:light}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,sans-serif}button,input,textarea,select{font:inherit}button{background:var(--panel);color:var(--fg);border:1px solid var(--line);padding:9px 13px;border-radius:7px;cursor:pointer}button:disabled{opacity:.45;cursor:default}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.shell{height:100dvh;display:flex;flex-direction:column;max-width:1040px;margin:auto}header{padding:16px 24px;border-bottom:1px solid var(--line);flex-shrink:0}h1{font:600 20px Georgia,serif;margin:0 0 6px}.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.meta{color:var(--muted);font-size:13px}.chat{flex:1;overflow:auto;min-height:0;padding:28px max(20px,calc((100% - 740px)/2));scroll-padding-top:20px}.entry{margin:0 0 26px}.author{font:600 12px/1.5 system-ui,sans-serif;color:var(--accent);letter-spacing:.04em;margin-bottom:5px}.prose{white-space:pre-wrap;overflow-wrap:anywhere;font:var(--reader)/1.75 Charter,Georgia,serif}.user .author{text-align:right}.user .prose{color:var(--muted)}.image-card{margin:24px 0}.image-card img{display:block;width:100%;max-width:540px;height:auto;border-radius:8px;margin:auto}.image-card figcaption{font-size:12px;color:var(--muted);text-align:center;margin-top:8px}
+footer{padding:12px 20px max(14px,env(safe-area-inset-bottom));border-top:1px solid var(--line);flex-shrink:0}form{display:flex;gap:10px;align-items:stretch}textarea{resize:vertical;min-height:54px;max-height:180px;flex:1;background:var(--panel);color:var(--fg);border:1px solid var(--line);border-radius:7px;padding:12px}#notice{margin:0;padding:10px 20px;background:var(--panel);font-size:13px;max-height:110px;overflow:auto}#activity{min-height:20px;color:var(--muted);font-size:12px}dialog{width:min(620px,94vw);max-height:86dvh;overflow:auto;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--fg);padding:24px}dialog::backdrop{background:#0009}dialog h2{font-family:Georgia,serif}label{display:block;margin:16px 0}input{width:100%;padding:10px;margin-top:5px;background:var(--panel);color:var(--fg);border:1px solid var(--line);border-radius:5px}small{display:block;color:var(--muted)}li{margin:12px 0}#reset{margin-top:22px}.inline{display:flex;gap:8px;align-items:center}.inline label{margin:0}
+@media(max-width:540px){header{padding:12px 16px}.toolbar button{font-size:12px;padding:8px}h1{font-size:18px}.chat{padding:22px 18px}footer{padding:10px 12px}#send{max-width:100px}}
+</style>
+<script src="./app.js" defer></script>
+</head>
+<body>
+<div class="shell">
+<header><h1>Слизерин · Шестой курс</h1><div class="meta">Дима Ясин · 17 лет · пилот</div><div id="position" class="meta">Первое сентября</div><div id="present" class="meta"></div>
+<nav class="toolbar" aria-label="Управление историей"><button id="openJournal">Дневник</button><button id="openSettings">Настройки</button><button id="theme">Свет / тьма</button><button id="pause">Пауза</button><button id="illustrate">Иллюстрация</button><button id="advance">Продолжить →</button></nav></header>
+<p id="notice" role="status" hidden></p><main id="chat" class="chat" aria-label="История"></main>
+<footer><div id="activity" role="status"></div><form id="form"><textarea id="text" aria-label="Твоя реплика или действие" placeholder="Что ты говоришь или делаешь?" maxlength="6000"></textarea><button id="send" type="submit">Отправить</button></form><button id="retry" hidden>Повторить проверку</button></footer>
+</div>
+<dialog id="settings"><h2>Настройки истории</h2><p>Профиль: Дима Ясин. ID позволяет восстановить сохранение в другом браузере при подключении к тому же серверу.</p>
+<label>Адрес n8n<input id="endpoint" type="url" placeholder="https://n8n.example.com" autocomplete="url"><small>Подойдёт адрес сервера или полный URL slytherin-pilot-turn. Для постоянной игры используйте Production URL.</small></label>
+<label>ID сохранения<input id="userId" spellcheck="false" autocomplete="off"><small>Сохраните ID отдельно. Для другого прохождения используйте новый ID из 24–80 латинских букв, цифр, _ или -.</small></label>
+<label>Размер текста<select id="font"><option>17</option><option>19</option><option>21</option><option>23</option></select></label>
+<p class="meta">Для новых сцен нужен сервер. Уже загруженный текст можно перечитать без сети. Реплики передаются выбранному AI-провайдеру.</p>
+<div class="inline"><button id="connect">Подключить</button><button data-close>Закрыть</button></div><button id="reset">Начать пилот заново</button></dialog>
+<dialog id="journal"><h2>Дневник Димы</h2><h3>События и наблюдения</h3><ul id="facts"></ul><h3>Договорённости</h3><ul id="appointments"></ul><button data-close>Закрыть</button></dialog>
+</body></html>
