@@ -36,13 +36,16 @@ function appendBeat(parent,beat,role){
  const text=document.createElement('div');text.className='prose';text.textContent=beat.text;
  node.append(label,text);parent.append(node);
 }
+function imageAnchor(image,records){const id=image.anchorId||image.snapshot?.messageId;if(id&&records.some(r=>r.id===id))return id;const sig=JSON.stringify(image.snapshot?.beats);return image.snapshot?.beats?[...records].reverse().find(r=>r.role==='assistant'&&JSON.stringify(r.beats)===sig)?.id:null;}
+function placeImages(records){const pending=read(key('pendingImage'));const list=[...images];if(pending&&(!pending.payload.runId||pending.payload.runId===current?.runId)&&!list.some(i=>i.requestId===pending.payload.requestId))list.push({requestId:pending.payload.requestId,anchorId:pending.payload.anchorId,status:'processing'});const tails=new Map();$('legacyImages').replaceChildren();let unmatched=0;for(const item of list){if(item.runId&&item.runId!==current?.runId)continue;const id=imageAnchor(item,records);const after=tails.get(id)||[...$('chat').children].find(n=>n.dataset.id===id);const card=imageCard(item);if(!card)continue;if(after){after.after(card);tails.set(id,card);}else if(item.status==='completed'){$('legacyImages').append(card);unmatched++;}}$('legacySection').hidden=!unmatched;}
 function imageCard(image){
+ if(image.status==='processing'){const fig=document.createElement('figure');fig.className='image-card';fig.dataset.imageId=image.requestId;fig.textContent='Создаётся иллюстрация…';return fig;}
  if(!image.url||!/^https?:\/\//.test(image.url))return;
- const fig=document.createElement('figure');fig.className='image-card';
+ const fig=document.createElement('figure');fig.className='image-card';fig.dataset.imageId=image.requestId;
  const img=document.createElement('img');img.src=image.url;img.alt='Иллюстрация текущего момента';img.loading='lazy';
  img.onerror=()=>{img.hidden=true;const msg=document.createElement('p');msg.textContent='Ссылка на изображение недоступна. URL провайдера может иметь ограниченный срок хранения.';fig.prepend(msg)};
  const caption=document.createElement('figcaption');caption.textContent=image.snapshot?.scene?.location||'Иллюстрация';
- fig.append(img,caption);$('chat').append(fig);
+ fig.append(img,caption);return fig;
 }
 function render(r,anchorId){
  current=r;store(key('view'),r);
@@ -55,7 +58,7 @@ function render(r,anchorId){
   for(const b of record.beats||[])appendBeat(block,b,record.role);
   $('chat').append(block);
  }
- images=r.images||images;for(const img of images)imageCard(img);
+ images=r.images||images;placeImages(r.transcript||[]);
  $('facts').replaceChildren();$('appointments').replaceChildren();
  for(const item of r.journal||[]){const li=document.createElement('li');li.textContent=item.text;$('facts').append(li)}
  for(const item of r.appointments||[]){const li=document.createElement('li');li.textContent=item.text;$('appointments').append(li)}
@@ -113,8 +116,9 @@ let imageTimer=null;
 function scheduleImage(){clearTimeout(imageTimer);imageTimer=setTimeout(()=>{if(!busy&&read(key('pendingImage')))illustrate();else if(read(key('pendingImage')))scheduleImage()},12000)}
 async function illustrate(){
  if(busy)return;
- const pending=read(key('pendingImage'))||{payload:{userId:settings.userId,requestId:newId()}};
- store(key('pendingImage'),pending);busy=true;controls();
+ const anchor=[...(current?.transcript||[])].reverse().find(r=>r.role==='assistant'&&!r.beats?.some(b=>/История приостановлена|Можно продолжать|Пилот завершён/.test(b.text)));
+ const pending=read(key('pendingImage'))||{payload:{userId:settings.userId,requestId:newId(),anchorId:anchor?.id,runId:current?.runId}};
+ store(key('pendingImage'),pending);busy=true;controls();if(current)render(current);
  try{const done=await checkImage(pending);if(!done)scheduleImage()}
  catch(e){notice(e.message)}finally{busy=false;controls()}
 }
@@ -146,3 +150,5 @@ if(settings.endpoint){
  const cached=read(key('view'));if(cached)render(cached);
  turn('start').then(()=>{if(!read(key('pendingTurn'))&&read(key('pendingImage')))scheduleImage()});
 }else{$('endpoint').value='';$('userId').value=settings.userId;$('settings').showModal()}
+
+document.addEventListener('click',e=>{const m=$('mainMenu');if(!m.contains(e.target)||e.target.closest('.menu-actions button'))m.open=false});document.addEventListener('keydown',e=>{if(e.key==='Escape')$('mainMenu').open=false});

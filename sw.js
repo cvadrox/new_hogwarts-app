@@ -1,4 +1,4 @@
-const CACHE = 'slytherin-pilot-shell-v1';
+const CACHE = 'slytherin-pilot-shell-v2';
 const ASSETS = ['./', './index.html', './app.js', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
