@@ -47,7 +47,42 @@ function imageCard(image){
  const caption=document.createElement('figcaption');caption.textContent=image.snapshot?.scene?.location||'Иллюстрация';
  fig.append(img,caption);return fig;
 }
+
+// Keep a visible message (or bottom) fixed while the transcript is rebuilt.
+let scrollState=null,scrollEpoch=0,scrollRestoring=false;
+function captureChatScroll(){
+ const chat=$('chat');
+ const bottom=chat.scrollHeight-chat.clientHeight-chat.scrollTop<64;
+ const top=chat.getBoundingClientRect().top;
+ const visible=[...chat.children].find(n=>n.getBoundingClientRect().bottom>top+1);
+ return {bottom,top:chat.scrollTop,id:visible?.dataset.id||null,imageId:visible?.dataset.imageId||null,offset:visible?visible.getBoundingClientRect().top-top:0};
+}
+function restoreChatScroll(snapshot){
+ const chat=$('chat');if(!snapshot)return;
+ scrollRestoring=true;
+ if(snapshot.bottom)chat.scrollTop=chat.scrollHeight;
+ else{
+  const node=[...chat.children].find(n=>(snapshot.id&&n.dataset.id===snapshot.id)||(snapshot.imageId&&n.dataset.imageId===snapshot.imageId));
+  if(node)chat.scrollTop+=node.getBoundingClientRect().top-chat.getBoundingClientRect().top-snapshot.offset;
+  else chat.scrollTop=snapshot.top;
+ }
+ scrollState=snapshot;
+ requestAnimationFrame(()=>{scrollRestoring=false});
+}
+$('chat').addEventListener('scroll',()=>{if(!scrollRestoring)scrollState=captureChatScroll()},{passive:true});
+// Images may acquire their height after render: retain the reader's position.
+$('chat').addEventListener('load',e=>{if(e.target.tagName==='IMG')restoreChatScroll(scrollState)},true);
+$('chat').addEventListener('error',e=>{if(e.target.tagName==='IMG')requestAnimationFrame(()=>restoreChatScroll(scrollState))},true);
+
 function render(r,anchorId){
+ const previous=current;
+ const changedRun=previous&&previous.runId!==r.runId;
+ const hadContent=$('chat').children.length>0;
+ const before=hadContent&&!changedRun?captureChatScroll():{bottom:true};
+ const isNewReply=anchorId&&!previous?.transcript?.some(m=>m.id===anchorId)&&r.transcript?.some(m=>m.id===anchorId);
+ const desired=isNewReply||changedRun?{bottom:true}:before;
+ const epoch=++scrollEpoch;
+
  current=r;store(key('view'),r);
  const sc=r.scene||{};
  $('position').textContent=[sc.date,sc.period,sc.location].filter(Boolean).join(' · ');
@@ -65,10 +100,8 @@ function render(r,anchorId){
  if(!r.journal?.length)$('facts').textContent='Открытых записей пока нет.';
  if(!r.appointments?.length)$('appointments').textContent='Пока нет сохранённых договорённостей.';
  controls();
- requestAnimationFrame(()=>{
-  const target=[...$('chat').children].find(n=>n.dataset.id===anchorId);
-  if(target)$('chat').scrollTop=target.offsetTop-$('chat').offsetTop;
- });
+ restoreChatScroll(desired);
+ requestAnimationFrame(()=>{if(epoch===scrollEpoch)restoreChatScroll(desired)});
 }
 async function post(url,payload){
  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),160000);
@@ -104,7 +137,7 @@ async function checkImage(pending){
  const r=await post(endpoints().image,pending.payload);
  if(r.status==='completed'&&r.url){
   localStorage.removeItem(key('pendingImage'));
-  if(!images.some(i=>i.requestId===r.requestId))images.push(r);
+  if((!r.runId||r.runId===current?.runId)&&!images.some(i=>i.requestId===r.requestId))images.push(r);
   if(current){current.images=images;render(current)}
   notice('Иллюстрация готова.');return true;
  }
