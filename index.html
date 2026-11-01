@@ -1,31 +1,2116 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru" data-theme="dark">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0B0C0E"><title>Слизерин · Шестой курс</title>
-<link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon-192.png">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B0C0E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Хогвартс: Шестой курс — Три сентябрьских дня</title>
 <style>
-:root{--bg:#0B0C0E;--fg:#EDE7DC;--panel:#15171B;--line:rgba(237,231,220,.13);--muted:#8B857A;--accent:#E0A458;--reader:19px;color-scheme:dark}
-[data-theme=light]{--bg:#EFE8DA;--fg:#2B251C;--panel:#E5DCC8;--line:rgba(43,37,28,.15);--muted:#7A6F5D;--accent:#B3762B;color-scheme:light}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,sans-serif}button,input,textarea,select{font:inherit}button{background:var(--panel);color:var(--fg);border:1px solid var(--line);padding:9px 13px;border-radius:7px;cursor:pointer}button:disabled{opacity:.45;cursor:default}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-.shell{height:100dvh;display:flex;flex-direction:column;max-width:1040px;margin:auto}header{padding:16px 24px;border-bottom:1px solid var(--line);flex-shrink:0}h1{font:600 20px Georgia,serif;margin:0 0 6px}.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.meta{color:var(--muted);font-size:13px}.chat{flex:1;overflow:auto;min-height:0;padding:28px max(20px,calc((100% - 740px)/2));scroll-padding-top:20px}.entry{margin:0 0 26px}.author{font:600 12px/1.5 system-ui,sans-serif;color:var(--accent);letter-spacing:.04em;margin-bottom:5px}.prose{white-space:pre-wrap;overflow-wrap:anywhere;font:var(--reader)/1.75 Charter,Georgia,serif}.user .author{text-align:right}.user .prose{color:var(--muted)}.image-card{margin:24px 0}.image-card img{display:block;width:100%;max-width:540px;height:auto;border-radius:8px;margin:auto}.image-card figcaption{font-size:12px;color:var(--muted);text-align:center;margin-top:8px}
-footer{padding:12px 20px max(14px,env(safe-area-inset-bottom));border-top:1px solid var(--line);flex-shrink:0}form{display:flex;gap:10px;align-items:stretch}textarea{resize:vertical;min-height:54px;max-height:180px;flex:1;background:var(--panel);color:var(--fg);border:1px solid var(--line);border-radius:7px;padding:12px}#notice{margin:0;padding:10px 20px;background:var(--panel);font-size:13px;max-height:110px;overflow:auto}#activity{min-height:20px;color:var(--muted);font-size:12px}dialog{width:min(620px,94vw);max-height:86dvh;overflow:auto;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--fg);padding:24px}dialog::backdrop{background:#0009}dialog h2{font-family:Georgia,serif}label{display:block;margin:16px 0}input{width:100%;padding:10px;margin-top:5px;background:var(--panel);color:var(--fg);border:1px solid var(--line);border-radius:5px}small{display:block;color:var(--muted)}li{margin:12px 0}#reset{margin-top:22px}.inline{display:flex;gap:8px;align-items:center}.inline label{margin:0}
-@media(max-width:540px){header{padding:12px 16px}.toolbar button{font-size:12px;padding:8px}h1{font-size:18px}.chat{padding:22px 18px}footer{padding:10px 12px}#send{max-width:100px}}
-header{padding:8px 16px;position:relative}.header-line{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:34px}.compact-position{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#mainMenu{flex-shrink:0}summary{cursor:pointer;list-style:none;color:var(--accent);padding:6px}summary::-webkit-details-marker{display:none}.menu-panel{position:absolute;right:12px;top:50px;z-index:30;width:min(320px,calc(100vw - 24px));padding:18px;background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 35px #0005}.menu-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}@media(max-width:540px){header{padding:6px 12px}}
+:root, [data-theme="dark"] {
+  --bg: #0B0C0E;
+  --stage: #15171B;
+  --sheet: #101215;
+  --fg: #EDE7DC;
+  --muted: #8B857A;
+  --dim: #5E594F;
+  --amber: #E0A458;
+  --amber-soft: rgba(224, 164, 88, 0.75);
+  --card-bg: rgba(237, 231, 220, 0.055);
+  --card-border: rgba(237, 231, 220, 0.13);
+  --frame-grad: linear-gradient(158deg, #2C333B 0%, #171B20 46%, #0D0F12 100%);
+  --beat-fg: #F2ECE1;
+  --scrim: linear-gradient(transparent, rgba(11, 12, 14, 0.9));
+  --grain-opacity: 0.04;
+  --grain-blend: screen;
+  --ui: -apple-system, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  --prose: "Charter", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --reader: 18px;
+}
+
+[data-theme="light"] {
+  --bg: #EFE8DA;
+  --stage: #E5DCC8;
+  --sheet: #ECE4D2;
+  --fg: #2B251C;
+  --muted: #7A6F5D;
+  --dim: #9A8D75;
+  --amber: #B3762B;
+  --amber-soft: rgba(179, 118, 43, 0.8);
+  --card-bg: rgba(43, 37, 28, 0.045);
+  --card-border: rgba(43, 37, 28, 0.15);
+  --frame-grad: linear-gradient(158deg, #CDC2A9 0%, #BDB197 46%, #ABA084 100%);
+  --beat-fg: #241E14;
+  --scrim: linear-gradient(transparent, rgba(239, 232, 218, 0.92));
+  --grain-opacity: 0.055;
+  --grain-blend: multiply;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--ui);
+  font-size: var(--reader);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  overscroll-behavior-y: none;
+}
+
+h1, h2, h3 {
+  font-family: var(--prose);
+  font-weight: 500;
+  color: var(--fg);
+  line-height: 1.3;
+  margin: 0 0 8px;
+  letter-spacing: 0.005em;
+}
+
+h1 { font-size: 1.15rem; }
+h2 { font-size: 1.35rem; }
+h3 {
+  font-family: var(--ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin: 18px 0 8px;
+}
+
+.app { display: flex; flex-direction: column; height: 100dvh; }
+
+/* Шапка */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: calc(10px + env(safe-area-inset-top)) clamp(14px, 3vw, 22px) 10px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--card-border);
+  transition: padding 0.2s;
+  z-index: 5;
+}
+
+.topbar.compact { padding-top: 6px; padding-bottom: 6px; }
+.topbar.compact .logo { width: 32px; height: 32px; flex-basis: 32px; font-size: 1.05rem; }
+.topbar.compact .sub { display: none; }
+
+.brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+
+.logo {
+  width: 38px; height: 38px; flex: 0 0 38px;
+  display: grid; place-items: center;
+  font-size: 1.25rem;
+  border-radius: 12px;
+  background: var(--card-bg);
+  border: 1px solid rgba(224, 164, 88, 0.4);
+  transition: width 0.2s, height 0.2s;
+}
+
+.brand-text { min-width: 0; }
+
+.brand-text h1 {
+  font-family: var(--prose);
+  font-weight: 500;
+  font-size: 1.02rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sub {
+  margin: 0;
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dim);
+  line-height: 1.5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Кнопки */
+.btn {
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  color: var(--fg);
+  border-radius: 14px;
+  padding: 11px 14px;
+  font-family: var(--ui);
+  font-size: 0.92rem;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s, border-color 0.15s, transform 0.05s;
+}
+
+.btn:hover { border-color: rgba(224, 164, 88, 0.5); }
+.btn:active { transform: scale(0.98); }
+.btn:disabled { opacity: 0.4; pointer-events: none; }
+
+.btn.primary {
+  background: var(--amber);
+  border-color: transparent;
+  color: #0B0C0E;
+  font-weight: 600;
+}
+
+.btn.big { width: 100%; min-height: 54px; font-size: 1.05rem; letter-spacing: 0.02em; }
+.btn.icon { min-width: 42px; min-height: 42px; font-size: 1.2rem; padding: 0; line-height: 1; }
+
+/* Лента */
+.chat {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: clamp(12px, 3vw, 22px) clamp(12px, 3vw, 22px) 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.msg { width: 100%; max-width: 46rem; margin: 0 auto; animation: rise 0.25s ease; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+.msg.narrator {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: var(--frame-grad);
+  min-height: 190px;
+  display: flex;
+  align-items: flex-end;
+  padding: 26px 20px 18px;
+}
+
+[data-theme="light"] .msg.narrator { border-color: rgba(43, 37, 28, 0.14); }
+
+.msg.narrator::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--scrim);
+  pointer-events: none;
+}
+
+.msg.narrator::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: var(--grain-blend);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.msg.narrator .text {
+  position: relative;
+  font-family: var(--prose);
+  font-size: calc(var(--reader) * 0.92);
+  line-height: 1.6;
+  color: var(--beat-fg);
+  white-space: pre-line;
+}
+
+.msg.char {
+  display: grid;
+  grid-template-columns: 3px 1fr;
+  column-gap: 10px;
+  align-items: start;
+  padding: 4px 2px;
+}
+
+.msg.char::before {
+  content: "";
+  grid-column: 1;
+  grid-row: 1;
+  width: 3px;
+  height: 15px;
+  margin-top: 6px;
+  border-radius: 2px;
+  background: var(--amber);
+  opacity: 0.75;
+}
+
+.msg.char .name {
+  grid-column: 2;
+  grid-row: 1;
+  font-family: var(--ui);
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--amber-soft);
+  margin-bottom: 2px;
+}
+
+.msg.char .text {
+  grid-column: 2;
+  grid-row: 2;
+  font-family: var(--prose);
+  font-size: calc(var(--reader) * 0.86);
+  line-height: 1.55;
+  color: var(--fg);
+  white-space: normal;
+}
+
+.msg.user {
+  align-self: flex-end;
+  max-width: 92%;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 11px 13px;
+  border-radius: 12px;
+  background: rgba(224, 164, 88, 0.07);
+  border: 1px solid rgba(224, 164, 88, 0.22);
+  white-space: normal;
+}
+
+[data-theme="light"] .msg.user { background: rgba(179, 118, 43, 0.1); }
+
+.msg.user::before {
+  content: "";
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 36%, #C9A46A 0 40%, #6E5943 41% 100%);
+}
+
+.msg.user .text {
+  font-family: var(--prose);
+  font-size: calc(var(--reader) * 0.86);
+  line-height: 1.45;
+}
+
+.msg.user .text::before {
+  content: "Я";
+  text-align: right;
+  display: block;
+  font-family: var(--ui);
+  font-size: 0.58rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 2px;
+}
+
+.msg.card {
+  text-align: center;
+  background: none;
+  border: 0;
+  padding: 14px 12px 4px;
+  white-space: normal;
+}
+
+.card-kicker {
+  font-family: var(--ui);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.card-title {
+  font-family: var(--prose);
+  font-weight: 500;
+  font-size: 1.35rem;
+  color: var(--fg);
+  margin-top: 4px;
+}
+
+.msg.illus {
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1.5px solid rgba(224, 164, 88, 0.7);
+  white-space: normal;
+}
+
+.illus-art {
+  min-height: 220px;
+  display: flex;
+  align-items: flex-end;
+  padding: 18px;
+  background:
+    radial-gradient(400px 200px at 75% 20%, rgba(224, 164, 88, 0.16), transparent 58%),
+    radial-gradient(350px 250px at 20% 80%, rgba(110, 139, 158, 0.14), transparent 62%),
+    var(--frame-grad);
+  font-family: var(--prose);
+  font-size: 1.15rem;
+  color: var(--beat-fg);
+  position: relative;
+}
+
+.illus-art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: var(--grain-blend);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.illus-cap {
+  padding: 12px 16px;
+  font-family: var(--ui);
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: var(--muted);
+  background: var(--stage);
+}
+
+/* Нижний док */
+.dock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px clamp(12px, 3vw, 22px) calc(12px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--card-border);
+  background: var(--sheet);
+}
+
+.dock-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.dock-row .btn { min-height: 46px; font-size: 0.88rem; padding: 8px 6px; }
+
+@media (min-width: 480px) {
+  .dock-row { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* Шторки */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 7, 8, 0.72);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 50;
+  overflow-y: auto;
+}
+
+.overlay.show { display: flex; }
+.overlay.sheet { align-items: flex-end; padding: 0; }
+
+.overlay.sheet .modal {
+  width: 100%;
+  border-radius: 20px 20px 0 0;
+  border-bottom: 0;
+  padding-bottom: calc(22px + env(safe-area-inset-bottom));
+  animation: up 0.22s ease;
+}
+
+@keyframes up {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+@media (min-width: 640px) {
+  .overlay.sheet { align-items: center; padding: 16px; }
+  .overlay.sheet .modal {
+    width: min(560px, 100%);
+    border-radius: 18px;
+    border-bottom: 1px solid var(--card-border);
+  }
+}
+
+.modal {
+  width: 100%;
+  max-width: 560px;
+  max-height: 92dvh;
+  overflow-y: auto;
+  background: var(--sheet);
+  border: 1px solid var(--card-border);
+  padding: 20px;
+  box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.35);
+}
+
+.muted { color: var(--muted); }
+.small { font-size: 0.82rem; }
+.err { color: var(--amber); min-height: 1.2em; margin: 6px 0 0; font-size: 0.85rem; }
+
+.label {
+  margin: 16px 0 4px;
+  font-family: var(--ui);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.field { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; }
+
+.field span {
+  font-family: var(--ui);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.field input, .field textarea {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  color: var(--fg);
+  border-radius: 12px;
+  padding: 13px 14px;
+  font-family: var(--prose);
+  font-size: 1.02rem;
+  resize: vertical;
+}
+
+.field input:focus, .field textarea:focus {
+  outline: none;
+  border-color: rgba(224, 164, 88, 0.55);
+}
+
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.actions.static { margin: 12px 0 2px; }
+
+.chip {
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  color: var(--fg);
+  border-radius: 999px;
+  padding: 11px 17px;
+  font-family: var(--ui);
+  font-size: 0.92rem;
+  min-height: 46px;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.chip:hover { border-color: rgba(224, 164, 88, 0.5); }
+
+.chip.primary {
+  background: var(--amber);
+  border-color: transparent;
+  color: #0B0C0E;
+  font-weight: 600;
+}
+
+.chip.danger { border-color: rgba(224, 130, 90, 0.45); color: var(--amber); }
+.chip.danger.armed { background: rgba(224, 130, 90, 0.18); }
+
+.font-ind {
+  align-self: center;
+  color: var(--muted);
+  font-family: var(--ui);
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  min-width: 48px;
+  text-align: center;
+}
+
+.menu-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+
+.menu-item {
+  text-align: left;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  color: var(--fg);
+  border-radius: 14px;
+  padding: 13px 15px;
+  font-family: var(--ui);
+  font-size: 0.95rem;
+  min-height: 48px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.menu-item:hover { border-color: rgba(224, 164, 88, 0.5); }
+
+.talk-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 12px;
+  max-height: 46dvh;
+  overflow-y: auto;
+}
+
+.talk-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  text-align: left;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  color: var(--fg);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-family: var(--prose);
+  font-size: 0.95rem;
+  min-height: 48px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.talk-item:hover { border-color: rgba(224, 164, 88, 0.5); }
+
+.badge {
+  font-family: var(--ui);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber);
+  border: 1px solid rgba(224, 164, 88, 0.5);
+  border-radius: 999px;
+  padding: 3px 9px;
+  white-space: nowrap;
+}
+
+.talk-item.far .badge { color: var(--dim); border-color: var(--card-border); }
+
+.stat {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 16px;
+  margin: 0;
+}
+
+.stat dt {
+  font-family: var(--ui);
+  font-size: 0.64rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--dim);
+  align-self: center;
+}
+
+.stat dd { margin: 0; font-family: var(--prose); font-size: 0.98rem; }
+
+.relation { display: flex; align-items: center; gap: 8px; margin: 5px 0; }
+.rel-name { min-width: 78px; font-family: var(--prose); font-size: 0.92rem; }
+
+.rel-bar {
+  flex: 1 1 auto;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(237, 231, 220, 0.1);
+  overflow: hidden;
+}
+
+.rel-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--amber), #C9A46A);
+  border-radius: 999px;
+}
+
+.rel-val {
+  min-width: 28px;
+  text-align: right;
+  font-family: var(--ui);
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.effects { margin: 8px 0 0; padding: 0 0 0 22px; list-style: none; }
+
+.effects li {
+  position: relative;
+  padding: 0 0 16px;
+  font-family: var(--prose);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--fg);
+}
+
+.effects li::before {
+  content: "";
+  position: absolute;
+  left: -21px;
+  top: 6px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--sheet);
+  border: 1px solid rgba(224, 164, 88, 0.65);
+}
+
+.effects li::after {
+  content: "";
+  position: absolute;
+  left: -18px;
+  top: 12px;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(rgba(224, 164, 88, 0.4), rgba(224, 164, 88, 0.06));
+}
+
+.effects li:last-child::after { display: none; }
+.effects li.muted { color: var(--dim); }
+
+.help {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  font-family: var(--prose);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.help li { margin: 8px 0; }
+.help strong { font-family: var(--ui); font-size: 0.88em; letter-spacing: 0.04em; }
+
+@media (max-width: 380px) {
+  h1 { font-size: 1.02rem; }
+  .btn.big { font-size: 1rem; }
+}
+
+/* Keep messages at their content height inside the scrolling chat. */
+.app { overflow: hidden; }
+.topbar, .dock { flex-shrink: 0; }
+.chat { min-height: 0; }
+.chat > .msg { flex: 0 0 auto; }
+.illus-art.has-image { display: block; min-height: 0; padding: 0; }
+.illus-art.has-image::after { content: none; }
+.illus-image { display: block; width: 100%; height: auto; }
+.illus-fallback { display: block; padding: 18px; color: inherit; }
+
+/* Continuous reading layout, identical for dialogue, actions and narration. */
+.chat { gap: 1.6em; background: var(--bg); }
+.chat > .msg.narrator, .chat > .msg.char, .chat > .msg.user {
+  display: block; flex: 0 0 auto; width: 100%; max-width: 46rem;
+  margin: 0 auto; padding: 0; min-height: 0; border: 0;
+  border-radius: 0; background: transparent; box-shadow: none;
+  align-self: auto; overflow: visible;
+}
+.chat > .msg.narrator::before, .chat > .msg.narrator::after,
+.chat > .msg.char::before, .chat > .msg.user::before { content: none; }
+.chat > .msg.narrator .text, .chat > .msg.char .text, .chat > .msg.user .text {
+  position: static; font-family: var(--prose); font-size: var(--reader);
+  line-height: 1.7; color: var(--fg); white-space: pre-wrap; overflow-wrap: anywhere;
+}
+.chat > .msg.char .name, .chat > .msg .who, .chat > .msg.user .text::before {
+  display: block; font-family: var(--ui); font-size: .66rem; line-height: 1.5;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--amber);
+  margin: 0 0 .35rem;
+}
+
+.chat::after { content: ""; display: block; flex: 0 0 var(--reading-space, 0px); }
+.chat > .msg.user .text::before { text-transform: none; text-align: right; }
 </style>
-<script src="./app.js" defer></script>
 </head>
 <body>
-<div class="shell">
-<header><div class="header-line"><div id="position" class="compact-position">Слизерин · Шестой курс</div><details id="mainMenu"><summary>☰ Меню</summary><div class="menu-panel"><strong>Слизерин · Шестой курс</strong><div class="meta">Дима Ясин · 17 лет</div><div id="present" class="meta"></div><div class="menu-actions"><button id="openJournal">Дневник</button><button id="openSettings">Настройки</button><button id="theme">Свет / тьма</button><button id="pause">Пауза</button><button id="illustrate">Иллюстрация</button><button id="advance">Продолжить →</button></div></div></details></div></header>
-<p id="notice" role="status" hidden></p><main id="chat" class="chat" aria-label="История"></main>
-<footer><div id="activity" role="status"></div><form id="form"><textarea id="text" aria-label="Твоя реплика или действие" placeholder="Что ты говоришь или делаешь?" maxlength="6000"></textarea><button id="send" type="submit">Отправить</button></form><button id="retry" hidden>Повторить проверку</button></footer>
+<div class="app">
+  <header class="topbar" id="topbar">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">VI</div>
+      <div class="brand-text">
+        <h1>Хогвартс: Шестой курс</h1>
+        <p class="sub" id="progressLine">Демо-режим без AI · 1 сентября · эпизод 1 из 15</p>
+      </div>
+    </div>
+    <button class="btn icon" id="btnMenu" type="button" aria-label="Меню">☰</button>
+  </header>
+
+  <main class="chat" id="chat" aria-live="polite" aria-label="Лента истории"></main>
+
+  <footer class="dock">
+    <button class="btn big primary" id="btnAdvance" type="button">Дальше →</button>
+    <div class="dock-row">
+      <button class="btn" id="btnSay" type="button">Реплика</button>
+      <button class="btn" id="btnIllus" type="button">Иллюстрация</button>
+    </div>
+  </footer>
 </div>
-<dialog id="settings"><h2>Настройки истории</h2><p>Профиль: Дима Ясин. ID позволяет восстановить сохранение в другом браузере при подключении к тому же серверу.</p>
-<label>Адрес n8n<input id="endpoint" type="url" placeholder="https://n8n.example.com" autocomplete="url"><small>Подойдёт адрес сервера или полный URL slytherin-pilot-turn. Для постоянной игры используйте Production URL.</small></label>
-<label>ID сохранения<input id="userId" spellcheck="false" autocomplete="off"><small>Сохраните ID отдельно. Для другого прохождения используйте новый ID из 24–80 латинских букв, цифр, _ или -.</small></label>
-<label>Размер текста<select id="font"><option>17</option><option>19</option><option>21</option><option>23</option></select></label>
-<p class="meta">Для новых сцен нужен сервер. Уже загруженный текст можно перечитать без сети. Реплики передаются выбранному AI-провайдеру.</p>
-<div class="inline"><button id="connect">Подключить</button><button data-close>Закрыть</button></div><button id="reset">Начать пилот заново</button></dialog>
-<dialog id="journal"><h2>Дневник Димы</h2><h3>События и наблюдения</h3><ul id="facts"></ul><h3>Договорённости</h3><ul id="appointments"></ul><section id="legacySection" hidden><h3>Старые изображения без привязки</h3><div id="legacyImages"></div></section><button data-close>Закрыть</button></dialog>
-</body></html>
+
+<div class="overlay sheet" id="onboarding">
+  <div class="modal">
+    <h2 id="obTitle">Перед началом познакомимся</h2>
+    <p class="muted small" id="obText">Интерактивная история о Диме Ясине и его друзьях на шестом курсе Хогвартса. Пилот охватывает 1–3 сентября. Протагонист — Дима Ясин.
+      <strong>Демо-режим:</strong> сцены и реплики заранее написаны вручную, AI-модель не используется.</p>
+    <label class="field">
+      <span>Как тебя зовут? Имя или прозвище</span>
+      <input id="nameInput" type="text" maxlength="40" placeholder="Например: Алекс" autocomplete="off">
+    </label>
+    <p class="err" id="nameError" role="alert"></p>
+    <p class="label">Как к тебе обращаться?</p>
+    <div class="actions static">
+      <button class="chip primary" type="button" data-form="m">В мужском роде</button>
+      <button class="chip primary" type="button" data-form="f">В женском роде</button>
+      <button class="chip primary" type="button" data-form="n">Без указания рода</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay sheet" id="sheetMenu">
+  <div class="modal">
+    <h2>Меню</h2>
+    <div class="menu-list">
+      <button class="menu-item" id="miStatus" type="button">📊 Статус прохождения</button>
+      <button class="menu-item" id="miHelp" type="button">📖 Как это работает</button>
+      <button class="menu-item" id="miProfile" type="button" hidden>👤 Профиль протагониста фиксирован</button>
+      <button class="menu-item" id="miPause" type="button">⏸ Поставить на паузу</button>
+      <button class="menu-item" id="installApp" type="button">Установить на телефон</button>
+      <button class="menu-item" id="miAI" type="button">🤖 Подключить AI (n8n)</button>
+    </div>
+    <p class="muted small" id="aiStatus">Демо-режим: ответы без AI. Можно подключить n8n-воркфлоу.</p>
+    <p class="label">Размер шрифта</p>
+    <div class="actions static">
+      <button class="chip" id="fontMinus" type="button">A −</button>
+      <span class="font-ind" id="fontInd">18px</span>
+      <button class="chip" id="fontPlus" type="button">A +</button>
+    </div>
+    <p class="label">Тема</p>
+    <div class="actions static">
+      <button class="chip primary" id="themeToggle" type="button">Сменить на светлую</button>
+    </div>
+    <div class="actions static">
+      <button class="chip danger" id="miReset" type="button">Начать заново</button>
+      <button class="chip primary" type="button" data-close="sheetMenu">Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay sheet" id="sheetTalk">
+  <div class="modal">
+    <h2>С кем поговорить?</h2>
+    <label class="field">
+      <span>Поиск по имени</span>
+      <input id="talkSearch" type="search" placeholder="Эмма, Мира, Лея…" autocomplete="off">
+    </label>
+    <p class="muted small">В AI-режиме присутствие персонажа определяется текущим сюжетом. Можно обратиться к любому герою; история учитывает возможность встречи.</p>
+    <div class="talk-list" id="talkList"></div>
+    <div class="actions static">
+      <button class="chip primary" type="button" data-close="sheetTalk">Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay sheet" id="sheetSay">
+  <div class="modal">
+    <h2>Реплика или действие</h2>
+    <label class="field">
+      <span>Что Дима говорит или делает?</span>
+      <textarea id="sayText" rows="5" maxlength="300" placeholder="Например: «Дима спрашивает Эмму о вечерних дежурствах.»"></textarea>
+    </label>
+    <p class="muted small">В демо-режиме текст попадает в историю, отвечает заготовленная реакция. С AI-режимом отвечает модель.</p>
+    <div class="actions static">
+      <button class="chip primary" id="saySend" type="button">Отправить</button>
+      <button class="chip" type="button" data-close="sheetSay">Отмена</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay sheet" id="sheetAI">
+  <div class="modal">
+    <h2>Подключить AI через n8n</h2>
+    <p class="muted small">Укажите адрес вебхука воркфлоу. Приложение отправляет ход и получает ответ модели:
+      реплики героев, последствия и прогресс. Ключи LLM остаются на сервере n8n.</p>
+    <label class="field">
+      <span>Адрес вебхука (turn)</span>
+      <input id="aiUrlInput" type="url" placeholder="Введите адрес вебхука" autocomplete="off">
+    </label>
+    <p class="muted small">Для иллюстраций воркфлоу должен обслуживать вебхук sixth-year-image на том же сервере.</p>
+    <div class="actions static">
+      <button class="chip primary" id="aiConnect" type="button">Подключить</button>
+      <button class="chip" type="button" data-close="sheetAI">Отмена</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay sheet" id="modalStatus">
+  <div class="modal">
+    <h2>Статус прохождения</h2>
+    <dl class="stat">
+      <dt>Имя</dt><dd id="stName">—</dd>
+      <dt>Протагонист</dt><dd id="stForm">17 лет · Слизерин</dd>
+      <dt>Дата и место</dt><dd id="stWhere">—</dd>
+      <dt>Эпизод</dt><dd id="stScene">—</dd>
+      <dt>Событий в эпизоде</dt><dd id="stEvents">—</dd>
+      <dt>Режим</dt><dd id="stMode">—</dd>
+    </dl>
+    <h3>Важные события и договорённости</h3>
+    <ul class="effects" id="stEffects"></ul>
+    <div class="actions static">
+      <button class="chip primary" type="button" data-close="modalStatus">Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay sheet" id="modalHelp">
+  <div class="modal">
+    <h2>Как это работает</h2>
+    <ul class="help">
+      <li><strong>Дальше</strong> — показать следующее событие с переходом. Событие не продвигается само от числа реплик.</li>
+      <li><strong>Реплика</strong> — свободный текст: действие, вопрос, реплика. Попытка не считается автоматическим успехом.</li>
+      <li><strong>Иллюстрация</strong> — изображение текущего момента (в демо — заглушка).</li>
+      <li><strong>Меню</strong> — статус, пауза, размер шрифта, тема, AI-режим и рестарт.</li>
+      <li>Повествование от третьего лица: решения, слова, чувства и поступки Димы определяет только игрок.</li>
+    </ul>
+    <p class="muted small">Полная версия использует Sixth Year — Story.json и Sixth Year — Image.json. Иллюстрации создаются через Polza с референсами только реально присутствующих персонажей.</p>
+    <div class="actions static">
+      <button class="chip primary" type="button" data-close="modalHelp">Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+"use strict";
+
+// ================= ДАННЫЕ =================
+
+const ROSTER = {
+  "emma": {
+    "name": "Эмма",
+    "dat": "Эмме"
+  },
+  "mira": {
+    "name": "Мира",
+    "dat": "Мире"
+  },
+  "lea": {
+    "name": "Лея",
+    "dat": "Лее"
+  },
+  "cassian": {
+    "name": "Кассиан",
+    "dat": "Кассиану"
+  },
+  "theo": {
+    "name": "Тео",
+    "dat": "Тео"
+  },
+  "flitwick": {
+    "name": "Флитвик",
+    "dat": "Флитвику"
+  },
+  "mcgonagall": {
+    "name": "Макгонагалл",
+    "dat": "Макгонагалл"
+  },
+  "pince": {
+    "name": "мадам Пинс",
+    "dat": "мадам Пинс"
+  },
+  "other_character": {
+    "name": "другой персонаж",
+    "dat": "другому персонажу"
+  }
+};
+
+const SCENES = [
+  {
+    "id": "train",
+    "title": "Возвращение в купе",
+    "date": "1 сентября",
+    "part": "после полудня",
+    "location": "купе Хогвартс-экспресса",
+    "who": "emma",
+    "present": [
+      "emma",
+      "mira",
+      "lea",
+      "cassian",
+      "theo"
+    ],
+    "allowed": [
+      "emma",
+      "mira",
+      "lea",
+      "cassian",
+      "theo"
+    ],
+    "events": [
+      "Эмма откладывает список старосты. Мира сравнивает расписания, Лея раскрывает папку театрального кружка, а Тео переставляет спортивную сумку, чтобы освободить проход. Кассиан начинает историю о летнем знакомстве, но останавливается, когда Мира просит уточнить самую неправдоподобную деталь.",
+      "Разговор переходит к предметам после СОВ. Выясняется, что теперь совпадают не все уроки: Мира ждёт практические чары, Лея обсуждает репетиции, Тео — тренировки, а Эмма предупреждает о вечерних обязанностях старосты.",
+      "За окном появляются знакомые очертания холмов. Эмма убирает список, Лея закрывает папку, а Кассиан смотрит на часы и признаёт, что обещал заглянуть ещё в одно купе до прибытия."
+    ],
+    "say": "Эмма откладывает список и внимательно смотрит на Диму. «Хорошо. Давай разберёмся, что ты хочешь сделать, прежде чем я начну составлять план».",
+    "look": "На сиденье лежат пять разных расписаний с пометками. За стеклом мелькают поля; в коридоре слышны шаги и стук тележки с сладостями."
+  },
+  {
+    "id": "great_hall_first",
+    "title": "Первый ужин",
+    "date": "1 сентября",
+    "part": "вечер",
+    "location": "Большой зал",
+    "who": "cassian",
+    "present": [
+      "emma",
+      "mira",
+      "lea",
+      "cassian",
+      "theo"
+    ],
+    "allowed": [
+      "emma",
+      "mira",
+      "lea",
+      "cassian",
+      "theo",
+      "mcgonagall",
+      "other_character"
+    ],
+    "events": [
+      "В Большом зале звенит посуда и перекрывают друг друга разговоры. Эмма достаёт список дел только на минуту и тут же убирает его, когда Лея начинает показывать эскиз декорации на обратной стороне расписания.",
+      "Тео и Мира спорят о том, что сложнее провести по расписанию: дополнительную тренировку или практику по чарам. Кассиан пытается рассказать похожий случай, но обе стороны одновременно требуют у него подтверждения.",
+      "Эмма замечает сигнал старшей старосты и заранее предупреждает друзей, что после ужина уйдёт по обязанностям. Она допивает чай и встаёт; её уход виден за общим шумом зала."
+    ],
+    "say": "Кассиан наклоняется ближе, чтобы не кричать через шум. «Так, это уже звучит интереснее моей истории. Продолжай».",
+    "look": "Над столами плывут свечи, тарелки соседних учеников постоянно меняются местами, а у дальней стены старосты сверяют какой-то список."
+  },
+  {
+    "id": "common_room_first",
+    "title": "Лампы и учебники",
+    "date": "1 сентября",
+    "part": "поздний вечер",
+    "location": "гостиная Слизерина",
+    "who": "theo",
+    "present": [
+      "cassian",
+      "theo"
+    ],
+    "allowed": [
+      "emma",
+      "mira",
+      "lea",
+      "cassian",
+      "theo",
+      "other_character"
+    ],
+    "events": [
+      "В гостиной горят лампы, за окнами темно. Кассиан и Тео занимают только часть длинного стола: за соседними учебниками сидят другие шестикурсники, поэтому разговор нельзя считать приватным.",
+      "Тео раскладывает на столе клюшечные ремни и конспект, явно намереваясь заняться и тем и другим. Кассиан достаёт чистый пергамент и обещает себе вслух начать с заголовка.",
+      "Позже дверь открывается, и Эмма входит с папкой старосты. Она здоровается с остальными учениками, находит свободный стул и только после этого подходит к столу друзей."
+    ],
+    "say": "Тео отодвигает конспект от клюшечных ремней. «Ладно. Если нужна помощь с делом — говори, что именно делаем».",
+    "look": "Под лампами лежат раскрытые учебники и чужие чернильницы. У камина разговаривают старшекурсники; свободных укромных мест почти не осталось."
+  },
+  {
+    "id": "breakfast_second",
+    "title": "Разные расписания",
+    "date": "2 сентября",
+    "part": "утро",
+    "location": "Большой зал",
+    "who": "mira",
+    "present": [
+      "emma",
+      "mira",
+      "theo"
+    ],
+    "allowed": [
+      "emma",
+      "mira",
+      "lea",
+      "cassian",
+      "theo",
+      "other_character"
+    ],
+    "events": [
+      "За завтраком Мира отмечает свободные окна, Тео сверяет время тренировки, а Эмма переносит в список два поручения. Кассиана за столом нет; друзья не знают, где именно он задерживается.",
+      "Лея входит в зал с папкой для репетиции и садится только после того, как находит друзей взглядом. Она сообщает, что послеобеденное время у неё почти всё расписано, но одно короткое дело ещё можно успеть.",
+      "Эмма складывает список и напоминает, что вечером её снова не будет часть времени. Мира предлагает разобрать одно практическое заклинание после урока, не ожидая, что остальные автоматически присоединятся."
+    ],
+    "say": "Мира быстро просматривает своё расписание. «Могу после чар. Если речь о практике — особенно могу».",
+    "look": "Рядом лежат три расписания с разными пометками. Шум посуды то усиливается, то стихает; у входа Лея держит потёртую папку с эскизами."
+  },
+  {
+    "id": "charms_second",
+    "title": "Практика по чарам",
+    "date": "2 сентября",
+    "part": "первая половина дня",
+    "location": "кабинет чар",
+    "who": "mira",
+    "present": [
+      "mira"
+    ],
+    "allowed": [
+      "mira",
+      "flitwick",
+      "other_character"
+    ],
+    "events": [
+      "Флитвик показывает упражнение на точность движения палочки. Мира выполняет свою попытку почти сразу, но затем добровольно повторяет её медленнее, проверяя, какой именно жест меняет результат.",
+      "После практической части Мира сопоставляет два варианта движения и увлечённо объясняет разницу. Заметив, что соседний ученик ждёт доступа к учебнику, она освобождает место и переносит разговор к своему столу.",
+      "Когда занятие заканчивается, Мира собирает записи и называет время, когда собирается зайти к Флитвику с вопросом. Она не торопит остальных и не предполагает их согласия идти вместе."
+    ],
+    "say": "Мира поворачивает к Диме свой конспект. «Смотри, здесь важна не сила, а последовательность. Давай проверим твою мысль на практике, если хочешь».",
+    "look": "На партe лежат палочки и листы с отметками о точности движений. У кафедры Флитвик отвечает другому ученику; окна кабинета залиты утренним светом."
+  },
+  {
+    "id": "gallery_second",
+    "title": "Дождь в галерее",
+    "date": "2 сентября",
+    "part": "свободное окно",
+    "location": "крытая галерея",
+    "who": "lea",
+    "present": [
+      "lea"
+    ],
+    "allowed": [
+      "lea",
+      "emma",
+      "other_character"
+    ],
+    "events": [
+      "За арками галереи идёт дождь. Лея стоит у стены с двумя деревянными деталями реквизита и ждёт, когда её позовут на репетицию; она не торопит Диму и не делает вид, что разговор обязан быть шуткой.",
+      "На стене виден светлый прямоугольник и два старых отверстия от шурупов — след недавно снятой таблички. Лея может увидеть ту же деталь, если на неё обратят внимание, но у неё нет готового объяснения.",
+      "Из кабинета театрального кружка выходит ученик и зовёт Лею помочь с репетицией. Она забирает деревянные детали и перед уходом честно обозначает, когда сможет вернуться к разговору."
+    ],
+    "say": "Лея опускает взгляд на реквизит, потом снова смотрит на Диму. «Не буду делать вид, что знаю ответ. Но могу выслушать».",
+    "look": "Дождь закрывает двор серой пеленой. На каменной стене остался светлый прямоугольник без таблички; рядом нет ни названия комнаты, ни указателя."
+  },
+  {
+    "id": "library_second",
+    "title": "Тишина библиотеки",
+    "date": "2 сентября",
+    "part": "после полудня",
+    "location": "библиотека",
+    "who": "mira",
+    "present": [
+      "mira"
+    ],
+    "allowed": [
+      "mira",
+      "pince",
+      "other_character"
+    ],
+    "events": [
+      "В библиотеке слышны страницы и скрип стульев. Мира занимает стол учебником по чарам и чистым пергаментом; рядом остаётся место для ещё одного конспекта, но она не ждёт здесь всю компанию.",
+      "Мира сравнивает практический пример с описанием в учебнике и спорит с формулировкой автора почти шёпотом. Мадам Пинс проходит мимо, и Мира добровольно понижает голос ещё на ступень.",
+      "Найдя нужную сноску, Мира выписывает её на отдельный лист. Она предлагает обсудить практический вывод после занятий, а не превращает находку в разгадку несвязанной школьной тайны."
+    ],
+    "say": "Мира придвигает конспект ближе и говорит тихо. «Давай отделим то, что действительно написано, от того, что нам пока только хочется доказать».",
+    "look": "Между высокими стеллажами горят настольные лампы. У Миры три разных конспекта; на полях одного она нарисовала аккуратную схему движения палочки."
+  },
+  {
+    "id": "theatre_second",
+    "title": "Реквизит и обещания",
+    "date": "2 сентября",
+    "part": "после занятий",
+    "location": "кабинет театрального кружка",
+    "who": "lea",
+    "present": [
+      "lea",
+      "cassian"
+    ],
+    "allowed": [
+      "lea",
+      "cassian",
+      "other_character"
+    ],
+    "events": [
+      "В кабинете пахнет краской и древесиной. Лея размечает детали декорации, а Кассиан держит моток шнура и рассказывает, как почти убедил портреты репетировать вместе с кружком. Лея выслушивает, не отрываясь от измерений.",
+      "Кассиан обещает принести тонкую проволоку до конца репетиции и уходит к знакомым из другого факультета. Его уход показан; Лея остаётся у верстака и продолжает работу без него.",
+      "Репетиция подходит к концу, а Кассиан не возвращается. Лея не выдаёт ему это в присутствии всего кружка: она складывает детали и откладывает отдельный короткий разговор на вечер."
+    ],
+    "say": "Лея ставит карандаш на верстак. «Можно без красивой формулировки. Я скорее пойму прямую версию».",
+    "look": "На верстаке лежат деревянные рамы, шнур и эскизы. Дверь за Кассианом уже закрылась; Лея остаётся у разобранной декорации с двумя учениками у противоположной стены."
+  },
+  {
+    "id": "lake_second",
+    "title": "Ветер у озера",
+    "date": "2 сентября",
+    "part": "ранний вечер",
+    "location": "дорожка у озера",
+    "who": "theo",
+    "present": [
+      "theo"
+    ],
+    "allowed": [
+      "theo",
+      "other_character"
+    ],
+    "events": [
+      "На дорожке у озера ветер сгибает траву. Тео возвращается с тренировки с сумкой через плечо и останавливается у скамьи, не предполагая, что Дима обязан идти дальше или говорить о квиддиче.",
+      "Тео рассказывает о спорном игровом упражнении просто и по делу. Когда разговор становится личным, он не заполняет паузу шуткой, а смотрит на воду и ждёт, готов ли Дима продолжить.",
+      "Из замка доносится призыв к ужину. Тео поднимает сумку и прямо говорит, что ему ещё нужно переодеться; совместный обратный путь возможен только после явной договорённости."
+    ],
+    "say": "Тео ставит сумку у скамьи. «Не обязательно решать всё сразу. Если хочешь просто посидеть — это тоже нормально».",
+    "look": "Ветер гонит по озеру короткие волны. На скамье лежит спортивная куртка Тео, а дальше по дорожке никого из их общих друзей не видно."
+  },
+  {
+    "id": "common_room_second",
+    "title": "Общий стол",
+    "date": "2 сентября",
+    "part": "вечер",
+    "location": "гостиная Слизерина",
+    "who": "cassian",
+    "present": [
+      "mira",
+      "lea",
+      "theo"
+    ],
+    "allowed": [
+      "emma",
+      "mira",
+      "lea",
+      "cassian",
+      "theo",
+      "other_character"
+    ],
+    "events": [
+      "За общим столом Мира раскладывает задания, Тео разбирает конспект, а Лея чистит кисть. Эмма ещё выполняет обязанности старосты и появляется в гостиной позже; окружающие ученики продолжают свои разговоры.",
+      "В гостиную входит Кассиан и сразу подходит к Лее. Он без театральности извиняется за невыполненное обещание с проволокой и спрашивает, чем действительно можно помочь сейчас, а не обещает ещё три дела.",
+      "Эмма возвращается и садится за стол после короткого разговора с другой старостой. Общий вечер складывается из заданий и отдельных разговоров; никто не требует, чтобы все обсуждали одну тему одновременно."
+    ],
+    "say": "Кассиан не начинает новую историю. «Сначала отвечу на то, что ты сказал. А если я снова пообещал лишнего — напомни мне о проволоке».",
+    "look": "Под лампами теснятся учебники, кисти и спортивный конспект. За соседним столом играют в шахматы; слова друзей тонут в обычном вечернем шуме гостиной."
+  },
+  {
+    "id": "breakfast_third",
+    "title": "Утро третьего дня",
+    "date": "3 сентября",
+    "part": "утро",
+    "location": "Большой зал",
+    "who": "emma",
+    "present": [
+      "emma",
+      "lea",
+      "cassian"
+    ],
+    "allowed": [
+      "emma",
+      "mira",
+      "lea",
+      "cassian",
+      "theo",
+      "other_character"
+    ],
+    "events": [
+      "Эмма делит завтрак с Леей и Кассианом. Миры и Тео за столом нет: у них своё расписание, и друзья не рассуждают за них об их настроении или планах.",
+      "Лея передаёт Эмме список вещей для следующей репетиции. Кассиан предлагает помощь только с одним конкретным поручением и уточняет время, вместо того чтобы снова обещать всё сразу.",
+      "У доски объявлений возле зала Эмма замечает, что один старый указатель снят. Она может назвать это обычной перестановкой; причин и названия исчезнувшего помещения никто из присутствующих не знает."
+    ],
+    "say": "Эмма не достаёт список дел. «Сейчас я не на дежурстве. Можешь говорить, не дожидаясь, пока я организую разговор».",
+    "look": "На столе остались три прибора и папка Леи. У входа ученики читают объявления; одно место на доске пустует, обозначенное только свежими отверстиями."
+  },
+  {
+    "id": "corridor_third",
+    "title": "Между занятиями",
+    "date": "3 сентября",
+    "part": "первая половина дня",
+    "location": "учебный коридор",
+    "who": "mira",
+    "present": [
+      "mira",
+      "theo"
+    ],
+    "allowed": [
+      "mira",
+      "theo",
+      "mcgonagall",
+      "other_character"
+    ],
+    "events": [
+      "Между занятиями коридор заполнен учениками. Мира держит конспект по чарам, Тео — свёрнутую схему тренировки; они стоят у окна лишь до следующего звонка и не образуют неожиданно собравшуюся компанию.",
+      "Мира и Тео спорят, можно ли считать спортивную схему разновидностью практической задачи. Спор остаётся добродушным до тех пор, пока один из них не начинает оценивать способности другого вместо самой схемы.",
+      "Звонок напоминает о разных кабинетах. Тео называет, куда идёт он, Мира — где у неё следующее свободное окно; дальнейшие встречи остаются договорённостями, а не автоматическими перемещениями."
+    ],
+    "say": "Мира закрывает конспект, не прерывая взгляд. «Если это спор о задаче — продолжим. Если о тебе лично — давай хотя бы называть вещи своими именами».",
+    "look": "За окном коридора виден мокрый внутренний двор. У стены остались две разные стрелки расписания; ученики расходятся по своим кабинетам."
+  },
+  {
+    "id": "courtyard_third",
+    "title": "Несоответствие в плане",
+    "date": "3 сентября",
+    "part": "свободное окно",
+    "location": "внутренний двор",
+    "who": "emma",
+    "present": [
+      "emma"
+    ],
+    "allowed": [
+      "emma",
+      "mcgonagall",
+      "other_character"
+    ],
+    "events": [
+      "После дождя во внутреннем дворе пахнет мокрым камнем. Эмма проверяет маршрут дежурства и останавливается у старого плана коридора, прикреплённого за стеклом.",
+      "На плане обозначен короткий проход к восточной галерее, но за ближайшей аркой видна глухая стена со светлым прямоугольником от снятой таблички. Это наблюдаемое несоответствие; его причина остаётся неизвестной.",
+      "Эмма сверяет время и говорит, что не собирается опаздывать из-за предположений. Она предлагает вернуться к вопросу позже, если Дима захочет, и не объявляет находку доказательством заговора или опасности."
+    ],
+    "say": "Эмма смотрит не на план, а на Диму. «Вижу то же несоответствие. Объяснения у меня нет — и выдумывать его не буду».",
+    "look": "За стеклом плана ещё виден короткий проход к восточной галерее. В реальной арке — только каменная стена и след снятой таблички; с кирпичей ещё капает вода."
+  },
+  {
+    "id": "great_hall_third",
+    "title": "Снова за одним столом",
+    "date": "3 сентября",
+    "part": "ужин",
+    "location": "Большой зал",
+    "who": "lea",
+    "present": [
+      "mira",
+      "theo"
+    ],
+    "allowed": [
+      "emma",
+      "mira",
+      "lea",
+      "cassian",
+      "theo",
+      "other_character"
+    ],
+    "events": [
+      "Мира и Тео уже сидят за столом, когда Лея входит в Большой зал с папкой. Она занимает место рядом с ними; разговор начинается с обычных дел, а не с обязательного обсуждения странной находки.",
+      "Кассиан появляется с одним небольшим пакетом реквизита и передаёт его Лее — выполненное конкретное обещание вместо нового грандиозного плана. Лея принимает его и спокойно продолжает ужин.",
+      "Эмма приходит после короткого дежурства и садится за стол. Друзья снова собираются вместе, но каждый сохраняет свои дела на вечер; никакое общее решение не принимается за Диму."
+    ],
+    "say": "Лея отодвигает папку, освобождая место для тарелки. «Можем поговорить. Не обязательно делать из этого событие».",
+    "look": "Вокруг звенят приборы. Перед Леей лежит пакет с реквизитом, Мира держит конспект закрытым, а Тео уже отодвинул пустую тарелку."
+  },
+  {
+    "id": "common_room_third",
+    "title": "Вечер без разгадки",
+    "date": "3 сентября",
+    "part": "поздний вечер",
+    "location": "гостиная Слизерина",
+    "who": "lea",
+    "present": [
+      "emma",
+      "mira",
+      "lea",
+      "cassian",
+      "theo"
+    ],
+    "allowed": [
+      "emma",
+      "mira",
+      "lea",
+      "cassian",
+      "theo",
+      "other_character"
+    ],
+    "events": [
+      "В гостиной под лампами остаются учебники и недоконченные разговоры. Друзья занимают разные места: Мира разбирает задачу, Тео и Кассиан рассматривают игровую схему, Лея чистит кисть, Эмма сверяет последний пункт дежурства.",
+      "Разговор может остаться спокойным: кто-то обсуждает задание, кто-то молчит. Светлый след от таблички и несоответствие в плане не получают нового объяснения и не прерывают обычный вечер сами по себе.",
+      "Пилот заканчивается на этом вечере 3 сентября. Обещания, отдельные разговоры и наблюдения сохранены; причина несоответствия не раскрыта, а дальнейшие планы не приняты за Диму."
+    ],
+    "say": "Лея остаётся на месте и кладёт кисть на чистую ткань. «Хорошо. Не будем торопить ни разговор, ни выводы».",
+    "look": "Лампы освещают общий стол и оставленные учебники. Другие ученики ещё разговаривают у камина; никто из друзей не исчезает и не появляется без видимого перехода."
+  }
+
+];
+
+// ================= API (n8n) =================
+
+let apiBase = "";
+let apiUserId = "";
+const newId = prefix => prefix + crypto.randomUUID().replace(/-/g, '');
+let pendingTurn = null;
+try { pendingTurn=JSON.parse(localStorage.getItem('sixthYearPendingTurn')||'null'); } catch (_) {}
+function pendingImageStorageKey(){return 'sixthYearPendingImage:'+apiBase+':'+apiUserId;}
+function migratePendingImage(){
+ if(!apiBase)return;
+ try{
+  const legacy=localStorage.getItem('sixthYearPendingImage');
+  if(!legacy)return;
+  const key=pendingImageStorageKey();
+  if(!localStorage.getItem(key))localStorage.setItem(key,legacy);
+  localStorage.removeItem('sixthYearPendingImage');
+ }catch(_){}
+}
+function hasPendingImage(){try{return Boolean(localStorage.getItem(pendingImageStorageKey()));}catch(_){return false;}}
+async function webRequest(url, payload) {
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),180000);
+  try {
+    const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:controller.signal});
+    let r; try {r=await res.json();} catch(_){throw Error('n8n вернул не JSON. Проверьте production webhook и активацию workflow.');}
+    if(!res.ok)throw Error(r.error||('HTTP '+res.status));
+    return r;
+  } finally {clearTimeout(timer);}
+}
+const api={
+ configure(url){
+  const next=String(url||'').trim().replace(/\/+$/,'');
+  if(apiBase&&next!==apiBase){pendingTurn=null;try{localStorage.removeItem('sixthYearPendingTurn')}catch(_){}}
+  apiBase=next;
+  if(apiBase&&!apiUserId)apiUserId=newId('web_');
+  migratePendingImage();
+  try{localStorage.setItem('sixthYearApiUrl',apiBase);localStorage.setItem('sixthYearApiUserId',apiUserId)}catch(_){}
+ },
+ enabled(){return Boolean(apiBase)},url(){return apiBase},
+ async turn(payload){
+  if(pendingTurn&&JSON.stringify(pendingTurn.payload)!==JSON.stringify(payload))throw Error('Предыдущий ход не подтверждён. Нажмите ту же кнопку ещё раз с тем же текстом, чтобы безопасно получить результат.');
+  if(!pendingTurn){pendingTurn={payload,requestId:newId('req_')};try{localStorage.setItem('sixthYearPendingTurn',JSON.stringify(pendingTurn))}catch(_){}}
+  const r=await webRequest(apiBase,{userId:apiUserId,requestId:pendingTurn.requestId,...pendingTurn.payload});
+  pendingTurn=null;try{localStorage.removeItem('sixthYearPendingTurn')}catch(_){}return r;
+ },
+ async image(){
+  const url=apiBase.replace(/sixth-year-turn\/?$/,'sixth-year-image');
+  const storageKey=pendingImageStorageKey();
+  let id;try{id=localStorage.getItem(storageKey)}catch(_){}
+  if(!id){id=newId('img_');try{localStorage.setItem(storageKey,id)}catch(_){}}
+  for(let i=0;i<120;i++){
+   const r=await webRequest(url,{userId:apiUserId,requestId:id});
+   if(r.url||r.status==='completed'||r.status==='failed'){
+    if(!r.requestId)r.requestId=id;
+    try{localStorage.removeItem(storageKey)}catch(_){}return r;
+   }
+   if(r.status!=='processing')throw Error(r.error||'Статус задачи неизвестен. Проверьте историю Polza.');
+   await new Promise(resolve=>setTimeout(resolve,5000));
+  }
+  throw Error('Генерация ещё выполняется. Кнопка «Иллюстрация» продолжит проверку этой же задачи.');
+ }
+};
+try{apiUserId=localStorage.getItem('sixthYearApiUserId')||'';const url=localStorage.getItem('sixthYearApiUrl');if(url)api.configure(url)}catch(_){}
+
+// ================= СОСТОЯНИЕ =================
+
+const $ = (id) => document.getElementById(id);
+const chat = $("chat");
+const progressLine = $("progressLine");
+const topbar = $("topbar");
+const btnAdvance = $("btnAdvance");
+
+const FORM_LABELS = { m: "мужской род", f: "женский род", n: "без указания рода" };
+const FONT_SIZES = [16, 17, 18, 20, 22];
+const FRIENDS = ["emma","mira","lea","cassian","theo"];
+
+const state = {
+  name: "Дима Ясин", form: "m",
+  sceneIdx: 0, evtIdx: 0,
+  acted: false, paused: false, ended: false, busy: false,
+  relations: {"emma":0,"mira":0,"lea":0,"cassian":0,"theo":0},
+  effects: [],
+  fontIdx: 2, theme: "dark",
+  ai: null
+};
+
+const scene = () => SCENES[state.sceneIdx];
+
+function presentHere() {
+  return Array.isArray(scene().present) ? scene().present.slice() : [];
+}
+
+function sp(m, f, n) {
+  return state.form === "m" ? m : state.form === "f" ? f : n;
+}
+
+let scrollAnchor = null;
+let scrollScheduled = false;
+function scrollDown() {
+  if (!scrollAnchor) scrollAnchor = chat.lastElementChild;
+  if (scrollScheduled) return;
+  scrollScheduled = true;
+  requestAnimationFrame(() => {
+    chat.style.setProperty('--reading-space', Math.max(0, chat.clientHeight - 64) + 'px');
+    const target = scrollAnchor;
+    if (target?.isConnected) chat.scrollTo({top: chat.scrollTop + target.getBoundingClientRect().top - chat.getBoundingClientRect().top - 16, behavior: 'instant'});
+    scrollAnchor = null; scrollScheduled = false;
+  });
+}
+
+function addBubble(kind, text, who, meta) {
+  const el = document.createElement("div");
+  el.className = "msg " + kind;
+  if (meta) {
+    for (const key of ["messageId", "turnId", "requestId"]) {
+      if (meta[key]) el.dataset[key] = meta[key];
+    }
+  }
+  if (kind === "char" && who) {
+    const nm = document.createElement("div");
+    nm.className = "name";
+    nm.textContent = who;
+    el.appendChild(nm);
+    const body = document.createElement("div");
+    body.className = "text";
+    body.textContent = text;
+    el.appendChild(body);
+  } else {
+    if (who) {
+      const label = document.createElement("div");
+      label.className = "who";
+      label.textContent = who;
+      el.appendChild(label);
+    }
+    const body = document.createElement("div");
+    body.className = "text";
+    body.textContent = text;
+    el.appendChild(body);
+  }
+  chat.appendChild(el);
+  scrollDown();
+  return el;
+}
+
+function addSceneCard(idx) {
+  const el = document.createElement("div");
+  el.className = "msg card";
+  el.dataset.sceneIndex = idx;
+  const kicker = document.createElement("div");
+  kicker.className = "card-kicker";
+  kicker.textContent = SCENES[idx].date + " · " + SCENES[idx].part + " · эпизод " + (idx + 1) + " из " + SCENES.length;
+  const title = document.createElement("div");
+  title.className = "card-title";
+  title.textContent = SCENES[idx].title;
+  el.appendChild(kicker);
+  el.appendChild(title);
+  chat.appendChild(el);
+  scrollDown();
+}
+
+function addIllusCard(url, caption, meta) {
+  const el = document.createElement("div");
+  el.className = "msg illus";
+  el.dataset.imageUrl = url || "";
+  el.dataset.caption = caption || "";
+  if(meta)for(const key of ['imageId','turnId','requestId'])if(meta[key])el.dataset[key]=meta[key];
+  const art = document.createElement("div");
+  art.className = "illus-art";
+  if (url) {
+    art.classList.add("has-image");
+    const img = document.createElement("img");
+    img.className = "illus-image";
+    img.alt = caption || "Иллюстрация к истории";
+    img.addEventListener("load", () => { cacheIllustration(url); }, { once: true });
+    img.addEventListener("error", () => {
+      img.hidden = true;
+      img.style.display = "none";
+      const link = document.createElement("a");
+      link.className = "illus-fallback";
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "Не удалось показать изображение. Открыть картинку отдельно";
+      art.appendChild(link);
+    }, { once: true });
+    img.src = url;
+    art.appendChild(img);
+  } else {
+    art.textContent = scene().title;
+  }
+  const cap = document.createElement("div");
+  cap.className = "illus-cap";
+  cap.textContent = caption || "Демо-заглушка. В полной версии здесь кинематографичное изображение текущего момента.";
+  el.appendChild(art);
+  el.appendChild(cap);
+  chat.appendChild(el);
+  restoreIllustration(art.querySelector("img"), url);
+  scrollDown();
+  return el;
+}
+
+function updateProgress() {
+  const sc = scene();
+  const mode = state.ended ? "История завершена" : state.paused ? "На паузе" : (api.enabled() ? "AI-режим" : "Демо-режим без AI");
+  progressLine.textContent = mode + " · " + sc.date + " · эпизод " + (state.sceneIdx + 1) + " из " + SCENES.length + " · " + sc.title;
+  updateDock();
+  persistDemoState();
+}
+
+function updateDock() {
+  for(const id of ['btnTalk','btnSay','btnLook','btnIllus','saySend','miReset','miProfile','miPause','miAI','aiConnect'])if($(id))$(id).disabled=state.busy;
+  btnAdvance.disabled = state.ended || state.paused || state.busy;
+  btnAdvance.textContent = state.busy ? "Герои отвечают…" : state.ended ? "История завершена" : state.paused ? "История на паузе" : "Дальше →";
+}
+
+function addEffect(text) {
+  if (!state.effects.includes(text)) state.effects.push(text);
+  if (state.effects.length > 30) state.effects.shift();
+}
+
+// ================= AI-режим =================
+
+function renderBeats(beats, turnId) {
+  for (let index=0;index<beats.length;index++) {
+    const b=beats[index];
+    const meta=turnId?{turnId,messageId:turnId+':assistant:beat:'+index}:null;
+    if (b.type === "dialogue") {
+      const name = ROSTER[b.character_id] ? ROSTER[b.character_id].name : "Герой";
+      addBubble("char", b.text, name, meta);
+    } else {
+      addBubble("narrator", b.text, undefined, meta);
+    }
+  }
+}
+
+function appendTranscriptMessage(m) {
+ return addBubble(m.role==='user'?'user':'narrator',m.text,undefined,{messageId:m.messageId,turnId:m.turnId});
+}
+
+function syncTranscript(transcript) {
+ if(!chat.children.length){
+  addSceneCard(state.sceneIdx);
+  for(const m of transcript)appendTranscriptMessage(m);
+  return;
+ }
+ const elements=[...chat.querySelectorAll('.msg')];
+ const messageIds=new Set(elements.map(el=>el.dataset.messageId).filter(Boolean));
+ const turnIds=new Set(elements.map(el=>el.dataset.turnId).filter(Boolean));
+ let boundary=-1;
+ for(let i=transcript.length-1;i>=0;i--){
+  const m=transcript[i];
+  if((m.messageId&&messageIds.has(m.messageId))||(m.turnId&&turnIds.has(m.turnId))){boundary=i;break;}
+ }
+ // One-time migration for legacy local chats. Match the last local message,
+ // not arbitrary earlier text: repeated replies must not move the boundary forward.
+ if(boundary<0){
+  const local=elements.map(el=>({el,text:el.querySelector('.text')?.textContent||'',user:el.classList.contains('user')})).filter(m=>m.text);
+  const last=local[local.length-1];
+  if(last){
+   for(let i=transcript.length-1;i>=0;i--){
+    const m=transcript[i];
+    const sameRole=(m.role==='user')===last.user;
+    if(sameRole&&(m.text===last.text||(m.role==='assistant'&&m.text.includes(last.text)))){boundary=i;break;}
+   }
+   if(boundary>=0){
+    last.el.dataset.messageId=transcript[boundary].messageId||'';
+    last.el.dataset.turnId=transcript[boundary].turnId||'';
+   }
+  }
+ }
+ for(const m of transcript.slice(boundary+1))appendTranscriptMessage(m);
+}
+
+function sendTurn(payload,resumePending=false,localUserEl=null) {
+ if(!api.enabled())return Promise.resolve(false);
+ if(state.busy)return Promise.resolve(true);
+ const requestPayload=resumePending&&pendingTurn?pendingTurn.payload:{action:payload.action,text:payload.text||'',characterId:payload.characterId||'',profile:{name:state.name,form:state.form}};
+ state.busy=true;updateDock();
+ const request=api.turn(requestPayload);
+ if(localUserEl&&pendingTurn)localUserEl.dataset.requestId=pendingTurn.requestId;
+ return request.then(r=>{
+  const turnId=r.turnId||r.requestId||'';
+  if(requestPayload.action==='reset'&&r.ok!==false)chat.innerHTML='';
+  if(localUserEl&&turnId&&r.ok!==false){
+   localUserEl.dataset.turnId=turnId;
+   localUserEl.dataset.messageId=r.userMessageId||turnId+':user';
+  }
+  if(r.state)state.ai=r.state;
+  if(r.profile){state.name=r.profile.name;state.form=({masculine:'m',feminine:'f',neutral:'n'})[r.profile.address_form]||'n';}
+  if(typeof r.sceneIndex==='number'){
+   const next=Math.max(0,Math.min(SCENES.length-1,r.sceneIndex));
+   if(next!==state.sceneIdx){state.sceneIdx=next;addSceneCard(next)}
+   state.evtIdx=Number(r.sceneTurns)||0;
+  }
+  if(typeof r.paused==='boolean')state.paused=r.paused;
+  if(typeof r.ended==='boolean')state.ended=r.ended;
+  if(r.relations)state.relations=r.relations;
+  if(Array.isArray(r.effects))state.effects=r.effects;
+  if(Array.isArray(r.transcript))syncTranscript(r.transcript);
+  if(r.beats?.length)renderBeats(r.beats,r.ok===false?'':turnId);
+  if(r.ok===false&&r.error&&!r.beats?.length)addBubble('narrator',r.error);
+  persistWebProfile();return true;
+ }).catch(e=>{addBubble('narrator','Ход не подтверждён: '+e.message+' Прогресс не подтверждён.');return true;})
+ .finally(()=>{state.busy=false;updateProgress();});
+}
+function persistWebProfile(){try{localStorage.setItem('sixthYearProfile',JSON.stringify({name:state.name,form:state.form}));}catch(_){}}
+function persistDemoState(){
+ if(api.enabled()||state.ai)return;
+ try{localStorage.setItem('sixthYearDemoState',JSON.stringify({sceneIdx:state.sceneIdx,evtIdx:state.evtIdx,paused:state.paused,ended:state.ended,relations:state.relations,effects:state.effects}));}catch(_){}
+}
+function restoreDemoState(){
+ try{
+  const saved=JSON.parse(localStorage.getItem('sixthYearDemoState')||'null');if(!saved)return;
+  const sceneIdx=Math.max(0,Math.min(SCENES.length-1,Math.trunc(Number(saved.sceneIdx)||0)));
+  state.sceneIdx=sceneIdx;state.evtIdx=Math.max(0,Math.min(SCENES[sceneIdx].events.length-1,Math.trunc(Number(saved.evtIdx)||0)));
+  state.paused=saved.paused===true;state.ended=saved.ended===true;
+  if(saved.relations&&typeof saved.relations==='object')for(const id of FRIENDS)state.relations[id]=Math.max(-10,Math.min(10,Number(saved.relations[id])||0));
+  state.effects=Array.isArray(saved.effects)?saved.effects.filter(x=>typeof x==='string').slice(-30):[];
+ }catch(_){}
+}
+
+// ================= СЮЖЕТ (демо) =================
+
+function renderEvent() {
+  addBubble("narrator", scene().events[state.evtIdx]);
+  state.acted = false;
+  updateProgress();
+}
+
+function advance() {
+  if (state.paused || state.ended) return;
+  const sc = scene();
+  if (state.evtIdx < sc.events.length - 1) {
+    state.evtIdx++;
+    renderEvent();
+    return;
+  }
+  if (state.sceneIdx < SCENES.length - 1) {
+    state.sceneIdx++;
+    state.evtIdx = 0;
+    addSceneCard(state.sceneIdx);
+    renderEvent();
+    return;
+  }
+  endStory();
+}
+
+function endStory() {
+  state.ended = true;
+  addBubble("narrator", "Пилот завершён на вечере 3 сентября. Договорённости и наблюдения сохранены, а тайна остаётся открытой. Можно начать путь заново с возвращения в Хогвартс-экспресс.");
+  updateProgress();
+}
+
+const NEUTRAL_LINES = [
+  (h, n) => h.name + ": Слушаю тебя, " + n + ". Что случилось?",
+  (h) => h.name + ": Хорошо, что мы можем поговорить. Давай разберёмся вместе.",
+  (h) => h.name + ": Поговорим об этом — только чуть позже, ладно?",
+  (h) => h.name + ": Это важно. Скажи ещё, я не упущу ни слова."
+];
+
+function talkTo(id) {
+  closeAll();
+  const hero = ROSTER[id];
+  const here = presentHere().includes(id);
+  addBubble("user", "Дима обращается к " + hero.dat + ".");
+  if (id === scene().who) {
+    addBubble("char", scene().say, hero.name);
+  } else if (here) {
+    const line = NEUTRAL_LINES[Math.floor(Math.random() * NEUTRAL_LINES.length)];
+    addBubble("char", line(hero, state.name), hero.name);
+  } else {
+    addBubble("narrator", hero.name + " сейчас не рядом. Приложение не телепортирует героев: можно дождаться встречи или договориться о письме — но это твой выбор.");
+    return;
+  }
+  if (FRIENDS.includes(id) && here) state.relations[id] = Math.min(10, state.relations[id] + 1);
+  addEffect("Разговор с " + hero.name + " («" + scene().title + "»)");
+  updateProgress();
+}
+
+function talkToRemote(id) {
+  closeAll();
+  const hero = ROSTER[id];
+  addBubble("user", "Дима обращается к " + hero.dat + ".");
+  return sendTurn({ action: "talk", characterId: id, text: "Разговор с персонажем: " + hero.name })
+    .then(function (ok) { if (!ok) talkTo(id); });
+}
+
+function renderTalkList(filter) {
+  const list = $("talkList");
+  list.innerHTML = "";
+  const q = (filter || "").trim().toLowerCase();
+  for (const id of Object.keys(ROSTER)) {
+    const hero = ROSTER[id];
+    if (q && !hero.name.toLowerCase().includes(q)) continue;
+    const here = presentHere().includes(id);
+    const item = document.createElement("button");
+    item.type = "button";
+    item.className = "talk-item" + (here ? "" : " far");
+    const nm = document.createElement("span");
+    nm.textContent = hero.name;
+    const badge = document.createElement("span");
+    badge.className = "badge";
+    badge.textContent = api.enabled() ? "по сюжету" : (here ? "рядом" : "не рядом");
+    item.appendChild(nm);
+    item.appendChild(badge);
+    item.addEventListener("click", function () {
+      if (api.enabled()) { talkToRemote(id); } else { talkTo(id); }
+    });
+    list.appendChild(item);
+  }
+  if (!list.children.length) {
+    const empty = document.createElement("p");
+    empty.className = "muted small";
+    empty.textContent = "Никого не нашлось. Попробуй другое имя.";
+    list.appendChild(empty);
+  }
+}
+
+const FREE_REPLIES = [
+  (hero, n) => hero.name + " слушает и кивает: «Слышу тебя, " + n + ".»",
+  (hero) => hero.name + " бросает взгляд, но разговор продолжается — история движется дальше.",
+  () => "На мгновение разговор стихает; за пределами сцены продолжается обычная школьная жизнь.",
+  (hero) => hero.name + " усмехается: «Интересная мысль.»",
+  (hero, n) => hero.name + " отвечает: «Поговорим об этом, " + n + ", когда разберёмся с тем, что у нас происходит.»"
+];
+
+function sendFreeText() {
+  const text = $("sayText").value.trim();
+  if (!text) return;
+  $("sayText").value = "";
+  closeAll();
+  const userMessage=pendingTurn?null:addBubble("user", text);
+  if (api.enabled()) {
+    sendTurn({ action: "chat", text: text },false,userMessage).then(function (ok) {
+      if (ok) return;
+      const hero = ROSTER[scene().who];
+      const reply = FREE_REPLIES[Math.floor(Math.random() * FREE_REPLIES.length)];
+      addBubble("narrator", reply(hero, state.name) + " (демо-реакция без AI)");
+      updateProgress();
+    });
+    return;
+  }
+  const hero = ROSTER[scene().who];
+  const reply = FREE_REPLIES[Math.floor(Math.random() * FREE_REPLIES.length)];
+  addBubble("narrator", reply(hero, state.name) + " (демо-реакция без AI)");
+  updateProgress();
+}
+
+function doLook() {
+  closeAll();
+  addBubble("user", "Дима осматривается.");
+  if (api.enabled()) {
+    sendTurn({ action: "look", text: "Осмотр места" }).then(function (ok) {
+      if (ok) return;
+      addBubble("narrator", scene().look);
+      updateProgress();
+    });
+    return;
+  }
+  addBubble("narrator", scene().look);
+  updateProgress();
+}
+
+function doIllustrate() {
+  closeAll();
+  if(!api.enabled()||!hasPendingImage())addBubble("user", "*");
+  if (api.enabled()) {
+    state.busy = true;
+    updateDock();
+    api.image()
+      .then(function (r) {
+        state.busy = false;
+        if (r && (r.url || r.imageUrl)) {
+          const lastTurn=[...chat.querySelectorAll('.msg[data-turn-id]')].pop()?.dataset.turnId||'';
+          addIllusCard(r.url || r.imageUrl, "Иллюстрация к сцене: " + scene().title,{imageId:r.requestId,requestId:r.requestId,turnId:lastTurn});
+        } else {
+          addBubble("narrator", "Не удалось получить изображение: " + ((r && r.error) || "нет ответа от генератора."));
+        }
+        updateProgress();
+      })
+      .catch(function (e) {
+        state.busy = false;
+        addBubble("narrator", "Иллюстрация: " + e.message);
+        updateProgress();
+      });
+    return;
+  }
+  addIllusCard(null);
+}
+
+// ================= ШТОРКИ =================
+
+function closeAll() {
+  document.querySelectorAll(".overlay.show").forEach(function (o) { o.classList.remove("show"); });
+}
+function openOverlay(id) {
+  closeAll();
+  $(id).classList.add("show");
+}
+
+document.querySelectorAll("[data-close]").forEach(function (btn) {
+  btn.addEventListener("click", function () { $(btn.dataset.close).classList.remove("show"); });
+});
+document.querySelectorAll(".overlay").forEach(function (overlay) {
+  overlay.addEventListener("click", function (e) {
+    if (e.target === overlay && overlay.id !== "onboarding") overlay.classList.remove("show");
+  });
+});
+
+// ================= ПРОФИЛЬ =================
+
+const NAME_RE = /^[\p{L}\p{M}\p{N} .'’\-]{1,40}$/u;
+let profileEdit = false;
+
+function openOnboarding(edit) {
+  profileEdit = edit;
+  $("obTitle").textContent = edit ? "Изменим профиль" : "Перед началом познакомимся";
+  $("obText").innerHTML = edit
+    ? "Имя и обращение влияют на то, как герои с тобой разговаривают."
+    : 'Интерактивная история о Диме Ясине и его друзьях на шестом курсе Хогвартса. Пилот охватывает 1–3 сентября. Протагонист — Дима Ясин. ' + (api.enabled() ? "<strong>AI-режим:</strong> ответы генерирует модель через n8n." : "<strong>Демо-режим:</strong> сцены и реплики заранее написаны вручную.");
+  $("nameInput").value = edit ? state.name : "";
+  $("nameError").textContent = "";
+  openOverlay("onboarding");
+}
+
+document.querySelectorAll("#onboarding [data-form]").forEach(function (btn) {
+  btn.addEventListener("click", function () {
+    const name = $("nameInput").value.normalize("NFC").trim();
+    if (!name) {
+      $("nameError").textContent = "Сначала введите имя или прозвище.";
+      $("nameInput").focus();
+      return;
+    }
+    if (!NAME_RE.test(name) || !/[\p{L}\p{N}]/u.test(name)) {
+      $("nameError").textContent = "До 40 символов — без ссылок и специальных знаков.";
+      $("nameInput").focus();
+      return;
+    }
+    state.name = name;
+    state.form = btn.dataset.form;
+    closeAll();
+    persistWebProfile();
+    if (api.enabled()) {
+      closeAll();
+      sendTurn({action:profileEdit ? "profile" : "start"});
+      return;
+    }
+    if (profileEdit) {
+      addBubble("narrator", "Профиль обновлён. Герои будут обращаться к тебе как " + state.name + ".");
+    } else {
+      startStory();
+    }
+    updateProgress();
+  });
+});
+
+$("nameInput").addEventListener("input", function () { $("nameError").textContent = ""; });
+
+function startStory() {
+  if(api.enabled()){sendTurn({action:"reset"});return;}
+  chat.innerHTML = "";
+  state.sceneIdx = 0;
+  state.evtIdx = 0;
+  state.acted = false;
+  state.paused = false;
+  state.ended = false;
+  state.relations = {"emma":0,"mira":0,"lea":0,"cassian":0,"theo":0};
+  state.effects = [];
+  state.ai = null;
+  addSceneCard(0);
+  addBubble("narrator", "1 сентября. За окном Хогвартс-экспресса плывут поля, а в купе привычно тесно от сумок и учебников. Эмма Уотерс освобождает место у окна и откладывает список старосты. Мира Палевски сравнивает два расписания, Лея Куин держит на коленях папку с пометками театрального кружка. Тео Марч переставляет спортивную сумку, а Кассиан Роу закрывает дверь купе.\n\nЭмма Уотерс: Дима, сюда. Сначала спокойно доедем — расписаниями займёмся потом.\n\nКассиан Роу: Знаменитые последние спокойные полчаса перед шестым курсом.\n\nЛея смотрит на него поверх папки, но ничего не добавляет. Поезд продолжает путь; у Димы есть время ответить любому из друзей или просто остаться с ними в купе.");
+  renderEvent();
+}
+
+// ================= СТАТУС =================
+
+function fillStatus() {
+  const sc = scene();
+  $("stName").textContent = state.name || "—";
+  $("stForm").textContent = "17 лет · Слизерин";
+  $("stWhere").textContent = sc.date + ", " + sc.part + " — " + sc.location;
+  $("stScene").textContent = state.ended ? "История завершена" : (state.sceneIdx + 1) + " из " + SCENES.length + " — " + sc.title;
+  $("stEvents").textContent = Math.min(sc.events.length, api.enabled() ? state.evtIdx : state.evtIdx + 1) + " из " + sc.events.length;
+  $("stMode").textContent = state.ended ? "Финал" : state.paused ? "Пауза" : (api.enabled() ? "AI-режим (n8n)" : "Демо");
+
+
+  const effBox = $("stEffects");
+  effBox.innerHTML = "";
+  if (!state.effects.length) {
+    const li = document.createElement("li");
+    li.className = "muted";
+    li.textContent = "Пока пусто — последствия появятся после разговоров с героями.";
+    effBox.appendChild(li);
+  } else {
+    for (const e of state.effects.slice().reverse()) {
+      const li = document.createElement("li");
+      li.textContent = e;
+      effBox.appendChild(li);
+    }
+  }
+}
+
+// ================= МЕНЮ =================
+
+$("btnMenu").addEventListener("click", function () { openOverlay("sheetMenu"); });
+$("miStatus").addEventListener("click", function () { fillStatus(); openOverlay("modalStatus"); });
+$("miHelp").addEventListener("click", function () { openOverlay("modalHelp"); });
+$("miProfile").addEventListener("click", function () { openOnboarding(true); });
+
+$("miPause").addEventListener("click", function () {
+  if(api.enabled()){closeAll();sendTurn({action:state.paused?"resume":"pause"});return;}
+  state.paused = !state.paused;
+  $("miPause").textContent = state.paused ? "▶ Продолжить историю" : "⏸ Поставить на паузу";
+  addBubble("narrator", state.paused
+    ? "История на паузе. Можно поговорить с героями и осмотреться; события не продвигаются."
+    : "История снова развивается по ходу разговора. Кнопка «Дальше» покажет следующее событие.");
+  updateProgress();
+  closeAll();
+});
+
+let resetArmed = false;
+let resetTimer = null;
+
+$("miReset").addEventListener("click", function () {
+  const btn = $("miReset");
+  if (!resetArmed) {
+    resetArmed = true;
+    btn.textContent = "Точно начать заново?";
+    btn.classList.add("armed");
+    resetTimer = setTimeout(function () {
+      resetArmed = false;
+      btn.textContent = "Начать заново";
+      btn.classList.remove("armed");
+    }, 3000);
+    return;
+  }
+  clearTimeout(resetTimer);
+  resetArmed = false;
+  btn.textContent = "Начать заново";
+  btn.classList.remove("armed");
+  startStory();
+  closeAll();
+});
+
+// ================= AI-ПОДКЛЮЧЕНИЕ =================
+
+$("miAI").addEventListener("click", function () {
+  if (api.enabled()) {
+    api.configure("");
+    $("miAI").textContent = "🤖 Подключить AI (n8n)";
+    $("aiStatus").textContent = "Демо-режим: ответы без AI. Можно подключить n8n-воркфлоу.";
+    updateProgress();
+  } else {
+    $("aiUrlInput").value = api.url();
+    openOverlay("sheetAI");
+  }
+});
+
+$("aiConnect").addEventListener("click", function () {
+  const url = $("aiUrlInput").value.trim();
+  if (!/^https?:\/\//.test(url)) {
+    $("aiStatus").textContent = "Укажите полный адрес вебхука, начинающийся с https://";
+    return;
+  }
+  api.configure(url);
+  $("miAI").textContent = "🤖 AI подключён — выключить";
+  $("aiStatus").textContent = "AI-режим включён: " + url;
+  closeAll();
+  updateProgress();
+  // Create/synchronise the server-side web session before the first story turn.
+  if(state.name)sendTurn({ action: "sync" });else openOnboarding(false);
+});
+
+// ================= ШРИФТ И ТЕМА =================
+
+function applyFont() {
+  document.documentElement.style.setProperty("--reader", FONT_SIZES[state.fontIdx] + "px");
+  $("fontInd").textContent = FONT_SIZES[state.fontIdx] + "px";
+}
+
+$("fontMinus").addEventListener("click", function () {
+  state.fontIdx = Math.max(0, state.fontIdx - 1);
+  applyFont();
+});
+
+$("fontPlus").addEventListener("click", function () {
+  state.fontIdx = Math.min(FONT_SIZES.length - 1, state.fontIdx + 1);
+  applyFont();
+});
+
+$("themeToggle").addEventListener("click", function () {
+  state.theme = state.theme === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = state.theme;
+  $("themeToggle").textContent = state.theme === "dark" ? "Сменить на светлую" : "Сменить на тёмную";
+});
+
+// ================= ДОК =================
+
+$("btnAdvance").addEventListener("click", function () {
+  if (api.enabled()) {
+    const userMessage=pendingTurn?null:addBubble("user", "Дальше.");
+    sendTurn({ action: "advance", text: "." },false,userMessage).then(function (ok) {
+      if (!ok) advance();
+    });
+    return;
+  }
+  advance();
+});
+
+$("btnTalk")?.addEventListener("click", function () {
+  $("talkSearch").value = "";
+  renderTalkList("");
+  openOverlay("sheetTalk");
+});
+
+$("btnSay").addEventListener("click", function () {
+  openOverlay("sheetSay");
+  $("sayText").focus();
+});
+
+$("btnLook")?.addEventListener("click", doLook);
+$("btnIllus").addEventListener("click", doIllustrate);
+$("saySend").addEventListener("click", sendFreeText);
+$("talkSearch").addEventListener("input", function (e) { renderTalkList(e.target.value); });
+
+chat.addEventListener("scroll", function () {
+  topbar.classList.toggle("compact", chat.scrollTop > 40);
+});
+
+
+function chatStorageKey(){return 'sixthYearChat:'+ (api.url()||'demo') + ':' + (apiUserId||'local');}
+function saveLocalChat(){
+ const entries=[...chat.children].map(el=>{
+  if(el.dataset.imageUrl)return {kind:'image',url:el.dataset.imageUrl,caption:el.dataset.caption,imageId:el.dataset.imageId,turnId:el.dataset.turnId,requestId:el.dataset.requestId};
+  if(el.classList.contains('illus'))return null;
+  if(el.classList.contains('card'))return {kind:'card',idx:Number(el.dataset.sceneIndex||0)};
+  const text=el.querySelector('.text');if(!text)return null;
+  return {kind:el.classList.contains('user')?'user':el.classList.contains('char')?'char':'narrator',text:text.textContent,who:el.querySelector('.name,.who')?.textContent,messageId:el.dataset.messageId,turnId:el.dataset.turnId,requestId:el.dataset.requestId};
+ }).filter(Boolean);
+ try{localStorage.setItem(chatStorageKey(),JSON.stringify(entries));}catch(e){console.warn('Chat storage unavailable',e);}
+}
+function restoreLocalChat(){
+ try{const entries=JSON.parse(localStorage.getItem(chatStorageKey())||'[]');
+ for(const m of entries){if(m.kind==='image')addIllusCard(m.url,m.caption,m);else if(m.kind==='card')addSceneCard(m.idx);else if(['user','char','narrator'].includes(m.kind))addBubble(m.kind,m.text,m.who,m);}
+ return entries.length>0;
+ }catch(_){return false;}
+}
+async function cacheIllustration(url){
+ try{const cache=await caches.open('sixth-year-illustrations-v1');if(await cache.match(url))return;
+ const response=await fetch(url,{mode:'cors'});if(response.ok)await cache.put(url,response);
+ }catch(_){}
+}
+async function restoreIllustration(img,url){
+ try{const cache=await caches.open('sixth-year-illustrations-v1');const response=await cache.match(url);
+ if(response&&img){const blobURL=URL.createObjectURL(await response.blob());img.src=blobURL;img.addEventListener('load',()=>URL.revokeObjectURL(blobURL),{once:true});}
+ }catch(_){}
+}
+new MutationObserver(saveLocalChat).observe(chat,{childList:true,subtree:true});
+window.addEventListener('pagehide',saveLocalChat);
+try{
+ state.name="Дима Ясин";state.form='m';persistWebProfile();closeAll();if(!api.enabled())restoreDemoState();restoreLocalChat();
+ if(api.enabled()){
+  if(pendingTurn){
+   const localUser=[...chat.querySelectorAll('.msg.user')].find(el=>el.dataset.requestId===pendingTurn.requestId)||null;
+   sendTurn(pendingTurn.payload,true,localUser);
+  }else sendTurn({action:'sync'});
+ }else if(!chat.children.length)startStory();
+
+}catch(_){}
+
+applyFont();
+updateProgress();
+
+})();
+</script>
+
+<script>
+(() => {
+  let pendingInstall;
+  const button = document.getElementById('installApp');
+  const standalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  if (standalone()) button.hidden = true;
+  window.addEventListener('beforeinstallprompt', event => {
+    event.preventDefault(); pendingInstall = event;
+  });
+  window.addEventListener('appinstalled', () => { pendingInstall = null; button.hidden = true; });
+  button.addEventListener('click', async () => {
+    if (pendingInstall) {
+      const prompt = pendingInstall; pendingInstall = null;
+      await prompt.prompt(); await prompt.userChoice;
+      return;
+    }
+    const ios = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    alert(location.protocol !== 'https:' && location.hostname !== 'localhost'
+      ? 'Для установки откройте приложение по HTTPS-адресу сайта.'
+      : ios
+        ? 'Откройте сайт в Safari. Нажмите «Поделиться» → «На экран Домой». Если есть переключатель «Открывать как веб-приложение», включите его. Запускайте приложение с новой иконки.'
+        : 'Откройте меню браузера → «Установить приложение» или «Добавить на главный экран». После установки запускайте приложение с новой иконки.');
+  });
+  if ('serviceWorker' in navigator && ['https:', 'http:'].includes(location.protocol)) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').catch(error => console.warn('Service worker:', error));
+    });
+  }
+})();
+</script>
+</body>
+</html>

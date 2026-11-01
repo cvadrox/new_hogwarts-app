@@ -1,0 +1,13 @@
+{
+  "name": "sixth-year-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Локальный предпросмотр: Хогвартс: Шестой курс — Три сентябрьских дня",
+  "scripts": {
+    "dev": "node server.cjs",
+    "start": "node server.cjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
