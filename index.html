@@ -385,11 +385,11 @@ h3 {
   background: var(--sheet);
 }
 
-.dock-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.dock-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .dock-row .btn { min-height: 46px; font-size: 0.88rem; padding: 8px 6px; }
 
 @media (min-width: 480px) {
-  .dock-row { grid-template-columns: repeat(4, 1fr); }
+  .dock-row { grid-template-columns: repeat(3, 1fr); }
 }
 
 /* Шторки */
@@ -684,6 +684,7 @@ h3 {
 .illus-art.has-image { display: block; min-height: 0; padding: 0; }
 .illus-art.has-image::after { content: none; }
 .illus-image { display: block; width: 100%; height: auto; }
+video.illus-image { aspect-ratio: 2 / 3; object-fit: contain; background: #000; }
 .illus-fallback { display: block; padding: 18px; color: inherit; }
 
 /* Continuous reading layout, identical for dialogue, actions and narration. */
@@ -729,6 +730,7 @@ h3 {
     <button class="btn big primary" id="btnAdvance" type="button">Дальше →</button>
     <div class="dock-row">
       <button class="btn" id="btnSay" type="button">Реплика</button>
+      <button class="btn" id="btnVideo" type="button">Видео</button>
       <button class="btn" id="btnIllus" type="button">Иллюстрация</button>
     </div>
   </footer>
@@ -821,7 +823,7 @@ h3 {
       <span>Адрес вебхука (turn)</span>
       <input id="aiUrlInput" type="url" placeholder="Введите адрес вебхука" autocomplete="off">
     </label>
-    <p class="muted small">Для иллюстраций воркфлоу должен обслуживать вебхук sixth-year-image на том же сервере.</p>
+    <p class="muted small">Для иллюстраций и видео на том же сервере нужны вебхуки sixth-year-image и sixth-year-video.</p>
     <div class="actions static">
       <button class="chip primary" id="aiConnect" type="button">Подключить</button>
       <button class="chip" type="button" data-close="sheetAI">Отмена</button>
@@ -854,11 +856,12 @@ h3 {
     <ul class="help">
       <li><strong>Дальше</strong> — показать следующее событие с переходом. Событие не продвигается само от числа реплик.</li>
       <li><strong>Реплика</strong> — свободный текст: действие, вопрос, реплика. Попытка не считается автоматическим успехом.</li>
+      <li><strong>Видео</strong> — 15-секундный ролик текущего момента и последней реплики, адресованной Диме (в демо — заглушка).</li>
       <li><strong>Иллюстрация</strong> — изображение текущего момента (в демо — заглушка).</li>
       <li><strong>Меню</strong> — статус, пауза, размер шрифта, тема, AI-режим и рестарт.</li>
       <li>Повествование от третьего лица: решения, слова, чувства и поступки Димы определяет только игрок.</li>
     </ul>
-    <p class="muted small">Полная версия использует Sixth Year — Story.json и Sixth Year — Image.json. Иллюстрации создаются через Polza с референсами только реально присутствующих персонажей.</p>
+    <p class="muted small">Полная версия использует Sixth Year — Story.json, Sixth Year — Image.json и Sixth Year — Video.json. Иллюстрации и видео создаются через Polza с референсами только реально присутствующих персонажей; Дима остаётся за кадром.</p>
     <div class="actions static">
       <button class="chip primary" type="button" data-close="modalHelp">Закрыть</button>
     </div>
@@ -1324,6 +1327,8 @@ function migratePendingImage(){
  }catch(_){}
 }
 function hasPendingImage(){try{return Boolean(localStorage.getItem(pendingImageStorageKey()));}catch(_){return false;}}
+function pendingVideoStorageKey(){return 'sixthYearPendingVideo:'+apiBase+':'+apiUserId;}
+function hasPendingVideo(){try{return Boolean(localStorage.getItem(pendingVideoStorageKey()));}catch(_){return false;}}
 async function webRequest(url, payload) {
   const controller=new AbortController();
   const timer=setTimeout(()=>controller.abort(),600000);
@@ -1365,6 +1370,22 @@ const api={
    await new Promise(resolve=>setTimeout(resolve,5000));
   }
   throw Error('Генерация ещё выполняется. Кнопка «Иллюстрация» продолжит проверку этой же задачи.');
+ },
+ async video(){
+  const url=apiBase.replace(/sixth-year-turn\/?$/,'sixth-year-video');
+  const storageKey=pendingVideoStorageKey();
+  let id;try{id=localStorage.getItem(storageKey)}catch(_){}
+  if(!id){id=newId('vid_');try{localStorage.setItem(storageKey,id)}catch(_){}}
+  for(let i=0;i<180;i++){
+   const r=await webRequest(url,{userId:apiUserId,requestId:id});
+   if(r.url||r.videoUrl||r.status==='completed'||r.status==='failed'){
+    if(!r.requestId)r.requestId=id;
+    try{localStorage.removeItem(storageKey)}catch(_){}return r;
+   }
+   if(r.status!=='processing')throw Error(r.error||'Статус видеозадачи неизвестен. Проверьте историю Polza.');
+   await new Promise(resolve=>setTimeout(resolve,5000));
+  }
+  throw Error('Генерация ещё выполняется. Кнопка «Видео» продолжит проверку этой же задачи.');
  }
 };
 try{apiUserId=localStorage.getItem('sixthYearApiUserId')||'';const url=localStorage.getItem('sixthYearApiUrl');if(url)api.configure(url)}catch(_){}
@@ -1506,6 +1527,30 @@ function addIllusCard(url, caption, meta) {
   return el;
 }
 
+function addVideoCard(url, caption, meta) {
+  const el=document.createElement('div');
+  el.className='msg illus video';
+  el.dataset.videoUrl=url||'';
+  el.dataset.caption=caption||'';
+  if(meta)for(const key of ['videoId','turnId','requestId'])if(meta[key])el.dataset[key]=meta[key];
+  const art=document.createElement('div');art.className='illus-art';
+  if(url){
+   art.classList.add('has-image');
+   const player=document.createElement('video');
+   player.className='illus-image';player.controls=true;player.playsInline=true;player.preload='metadata';
+   player.setAttribute('playsinline','');player.setAttribute('aria-label',caption||'Видео к истории');
+   player.addEventListener('error',()=>{
+    player.hidden=true;player.style.display='none';
+    const link=document.createElement('a');link.className='illus-fallback';link.href=url;link.target='_blank';link.rel='noopener noreferrer';
+    link.textContent='Не удалось показать видео. Открыть ролик отдельно';art.appendChild(link);
+   },{once:true});
+   player.src=url;art.appendChild(player);
+  }else art.textContent=scene().title;
+  const cap=document.createElement('div');cap.className='illus-cap';
+  cap.textContent=caption||'Демо-заглушка. В полной версии здесь 15-секундное видео текущего момента.';
+  el.appendChild(art);el.appendChild(cap);chat.appendChild(el);scrollDown();return el;
+}
+
 function updateProgress() {
   const sc = scene();
   const mode = state.ended ? "История завершена" : state.paused ? "На паузе" : (api.enabled() ? "AI-режим" : "Демо-режим без AI");
@@ -1515,7 +1560,7 @@ function updateProgress() {
 }
 
 function updateDock() {
-  for(const id of ['btnTalk','btnSay','btnLook','btnIllus','saySend','miReset','miProfile','miPause','miAI','aiConnect'])if($(id))$(id).disabled=state.busy;
+  for(const id of ['btnTalk','btnSay','btnLook','btnVideo','btnIllus','saySend','miReset','miProfile','miPause','miAI','aiConnect'])if($(id))$(id).disabled=state.busy;
   btnAdvance.disabled = state.ended || state.paused || state.busy;
   btnAdvance.textContent = state.busy ? "Герои отвечают…" : state.ended ? "История завершена" : state.paused ? "История на паузе" : "Дальше →";
 }
@@ -1766,6 +1811,27 @@ function doLook() {
   }
   addBubble("narrator", scene().look);
   updateProgress();
+}
+
+function doVideo() {
+  closeAll();
+  if(!api.enabled()||!hasPendingVideo())addBubble('user','🎬');
+  if(api.enabled()){
+   state.busy=true;updateDock();
+   api.video().then(function(r){
+    state.busy=false;
+    const url=r&&(r.url||r.videoUrl);
+    if(url){
+     const lastTurn=[...chat.querySelectorAll('.msg[data-turn-id]')].pop()?.dataset.turnId||'';
+     addVideoCard(url,'Видео к сцене: '+scene().title,{videoId:r.requestId,requestId:r.requestId,turnId:lastTurn});
+    }else addBubble('narrator','Не удалось получить видео: '+((r&&r.error)||'нет ответа от генератора.'));
+    updateProgress();
+   }).catch(function(e){
+    state.busy=false;addBubble('narrator','Видео: '+e.message);updateProgress();
+   });
+   return;
+  }
+  addVideoCard(null);
 }
 
 function doIllustrate() {
@@ -2026,6 +2092,7 @@ $("btnSay").addEventListener("click", function () {
 });
 
 $("btnLook")?.addEventListener("click", doLook);
+$("btnVideo").addEventListener("click", doVideo);
 $("btnIllus").addEventListener("click", doIllustrate);
 $("saySend").addEventListener("click", sendFreeText);
 $("talkSearch").addEventListener("input", function (e) { renderTalkList(e.target.value); });
@@ -2038,6 +2105,7 @@ chat.addEventListener("scroll", function () {
 function chatStorageKey(){return 'sixthYearChat:'+ (api.url()||'demo') + ':' + (apiUserId||'local');}
 function saveLocalChat(){
  const entries=[...chat.children].map(el=>{
+  if(el.classList.contains('video'))return {kind:'video',url:el.dataset.videoUrl,caption:el.dataset.caption,videoId:el.dataset.videoId,turnId:el.dataset.turnId,requestId:el.dataset.requestId};
   if(el.dataset.imageUrl)return {kind:'image',url:el.dataset.imageUrl,caption:el.dataset.caption,imageId:el.dataset.imageId,turnId:el.dataset.turnId,requestId:el.dataset.requestId};
   if(el.classList.contains('illus'))return null;
   if(el.classList.contains('card'))return {kind:'card',idx:Number(el.dataset.sceneIndex||0)};
@@ -2048,7 +2116,7 @@ function saveLocalChat(){
 }
 function restoreLocalChat(){
  try{const entries=JSON.parse(localStorage.getItem(chatStorageKey())||'[]');
- for(const m of entries){if(m.kind==='image')addIllusCard(m.url,m.caption,m);else if(m.kind==='card')addSceneCard(m.idx);else if(['user','char','narrator'].includes(m.kind))addBubble(m.kind,m.text,m.who,m);}
+ for(const m of entries){if(m.kind==='video')addVideoCard(m.url,m.caption,m);else if(m.kind==='image')addIllusCard(m.url,m.caption,m);else if(m.kind==='card')addSceneCard(m.idx);else if(['user','char','narrator'].includes(m.kind))addBubble(m.kind,m.text,m.who,m);}
  return entries.length>0;
  }catch(_){return false;}
 }
