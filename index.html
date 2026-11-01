@@ -1326,7 +1326,7 @@ function migratePendingImage(){
 function hasPendingImage(){try{return Boolean(localStorage.getItem(pendingImageStorageKey()));}catch(_){return false;}}
 async function webRequest(url, payload) {
   const controller=new AbortController();
-  const timer=setTimeout(()=>controller.abort(),180000);
+  const timer=setTimeout(()=>controller.abort(),600000);
   try {
     const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:controller.signal});
     let r; try {r=await res.json();} catch(_){throw Error('n8n вернул не JSON. Проверьте production webhook и активацию workflow.');}
